@@ -5,6 +5,8 @@ var userController = require("../controllers/userController");
 //List all users
 //router.get("/users", userController.getUsers);
 //Create an user
+router.post("/users/admin", userController.createAdmin);
+router.post("/users/technical", userController.createTechnical);
 router.post("/users", userController.createUser);
 //List an user by his Id
 //router.get("/user/:userId", userController.getOneUser);
