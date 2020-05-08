@@ -9,8 +9,9 @@ var userSchema = new Schema({
       unique: true,
     },
   },
-  password: { type: String },
+  password: { type: String ,required:true},
   role: { type: String },
+  estado:{type:String}
 });
 
 module.exports = mongoose.model("User", userSchema);
