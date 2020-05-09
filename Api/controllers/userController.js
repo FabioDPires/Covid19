@@ -81,6 +81,7 @@ userController.getOneUser = function (req, res) {
   res.json(req.user);
 };
 
+// so admin e proprio user
 userController.deleteUser = function (req, res, next) {
   req.user.remove(function (err) {
     if (err) {
@@ -95,6 +96,8 @@ userController.updateUserPassword = async (req, res) => {
   const oldUser = await User.findByIdAndUpdate(req.params.userId, {
     password: req.body.password,
   });
+
+  //nao permitir password vazia
   const newUser = await User.findById(req.params.userId);
   res.send({
     old: oldUser,
@@ -106,6 +109,8 @@ userController.updateUserState = async (req, res) => {
   const oldUser = await User.findByIdAndUpdate(req.params.userId, {
     estado: req.body.estado,
   });
+
+  //so pode ter os valores permitidos 
   const newUser = await User.findById(req.params.userId);
   res.send({
     old: oldUser,

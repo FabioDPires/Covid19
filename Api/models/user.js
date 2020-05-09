@@ -11,9 +11,17 @@ var userSchema = new Schema({
     match: /[0-9]{8}/,
   },
   password: { type: String, required: true },
+  histórico: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Request",
+    },
+  ],
   role: { type: String },
-  
-  estado: { type: String, enum: ["Infetado", "Suspeito"] },
+
+  estado: { type: String, enum: ["Infetado", "Suspeito", "Curado"] },
+
+  //ARRAY COM TESTES
 });
 
 module.exports = mongoose.model("User", userSchema);

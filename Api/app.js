@@ -6,12 +6,14 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var requestsRouter = require("./routes/requests");
 
 var app = express();
 
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
+//E NECESSARIO INSTALAR O CORS
 mongoose
   .connect("mongodb://localhost:27017/Covid19")
   .then(() => console.log("Connected to the database"))
@@ -29,6 +31,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/api/v1", usersRouter);
+app.use("/api/v1", requestsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
