@@ -10,6 +10,7 @@ var requestController = {};
 //Creates an request
 requestController.createRequest = function (req, res, next) {
   var request = new Request({
+    paciente:req.body.paciente ,
     encaminhado: req.body.encaminhado,
     pessoaRisco: req.body.pessoaRisco,
     trabalhoRisco: req.body.trabalhoRisco,

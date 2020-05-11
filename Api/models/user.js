@@ -4,13 +4,13 @@ var Schema = mongoose.Schema;
 var userSchema = new Schema({
   cartaoCidadao: {
     type: String,
-    required: true,
+    required: [true, "cartaoCidadao is a required field"],
     index: {
       unique: true,
     },
     match: /[0-9]{8}/,
   },
-  password: { type: String, required: true },
+  password: { type: String, required: ["password is a required field"] },
   histórico: [
     {
       type: Schema.Types.ObjectId,
@@ -20,8 +20,6 @@ var userSchema = new Schema({
   role: { type: String },
 
   estado: { type: String, enum: ["Infetado", "Suspeito", "Curado"] },
-
-  //ARRAY COM TESTES
 });
 
 module.exports = mongoose.model("User", userSchema);

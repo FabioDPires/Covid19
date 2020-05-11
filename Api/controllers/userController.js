@@ -78,7 +78,11 @@ userController.getUserById = function (req, res, next, id) {
 };
 
 userController.getOneUser = function (req, res) {
-  res.json(req.user);
+  res.json({
+    cartaoCidadao: req.user.cartaoCidadao,
+    historico: req.user.historico,
+    estado: req.user.estado,
+  });
 };
 
 // so admin e proprio user
@@ -93,16 +97,26 @@ userController.deleteUser = function (req, res, next) {
 };
 
 userController.updateUserPassword = async (req, res) => {
-  const oldUser = await User.findByIdAndUpdate(req.params.userId, {
-    password: req.body.password,
-  });
+  try {
+    const oldUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      {
+        password: req.body.password,
+      },
+      {
+        runValidators: true,
+      }
+    );
 
-  //nao permitir password vazia
-  const newUser = await User.findById(req.params.userId);
-  res.send({
-    old: oldUser,
-    new: newUser,
-  });
+    const newUser = await User.findById(req.params.userId);
+    res.send({
+      old: oldUser,
+      new: newUser,
+    });
+  } catch (err) {
+    console.log("Error: ", err);
+    res.status(500).send("Something went wrong");
+  }
 };
 
 userController.updateUserState = async (req, res) => {
@@ -110,7 +124,7 @@ userController.updateUserState = async (req, res) => {
     estado: req.body.estado,
   });
 
-  //so pode ter os valores permitidos 
+  //so pode ter os valores permitidos
   const newUser = await User.findById(req.params.userId);
   res.send({
     old: oldUser,
