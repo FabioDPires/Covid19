@@ -22,7 +22,7 @@ var requestSchema = new Schema({
     enum: ["Pendente", "Agendado", "Concluído", "Aguarda Resultado"],
   },
   resultado: { type: String, enum: ["Positivo", "Negativo"] },
-  dataExame: { type: Date }, //data tem de ser superior a data atual
+  dataExame: { type: String }, //data tem de ser superior a data atual
 });
 
 module.exports = mongoose.model("Request", requestSchema);
