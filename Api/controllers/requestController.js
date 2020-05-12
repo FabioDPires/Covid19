@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var Request = require("../models/request");
+var User = require("../models/user");
+
 var requestController = {};
 //Creates an request
 requestController.createRequest = function (req, res, next) {
@@ -58,6 +60,18 @@ requestController.setExameResult = async (req, res) => {
       old: oldRequest,
       new: newRequest,
     });
+
+    if(newRequest.resultado=="Positivo"){
+    const newUser = await User.findByIdAndUpdate(
+      { _id: newRequest.paciente },
+      {
+        estado: "Infetado",
+      },
+      {
+        runValidators: true,
+      }
+    );
+    }
   } catch (err) {
     console.log("Error: ", err);
     res.status(500).send("Something went wrong");
@@ -65,16 +79,14 @@ requestController.setExameResult = async (req, res) => {
 };
 
 requestController.getRequestById = function (req, res, next, id) {
-  Request.findOne({ _id: id })
-    .populate("paciente", " cartaoCidadao historico estado")
-    .exec(function (err, request) {
-      if (err) {
-        next(err);
-      } else {
-        req.request = request;
-        next();
-      }
-    });
+  Request.findOne({ _id: id }).exec(function (err, request) {
+    if (err) {
+      next(err);
+    } else {
+      req.request = request;
+      next();
+    }
+  });
 };
 
 requestController.getAllRequests = function (req, res, next) {
