@@ -1,8 +1,6 @@
 var mongoose = require("mongoose");
 var User = require("../models/user");
-
 var userController = {};
-
 //Creates an administrator
 userController.createAdmin = function (req, res, next) {
   var user = new User({
@@ -10,7 +8,6 @@ userController.createAdmin = function (req, res, next) {
     password: req.body.password,
     role: "Admin",
   });
-
   user.save(function (err) {
     if (err) {
       next(err);
@@ -19,7 +16,6 @@ userController.createAdmin = function (req, res, next) {
     }
   });
 };
-
 //Creates a technical(person who is going to agend the covid exams)
 userController.createTechnical = function (req, res, next) {
   var user = new User({
@@ -27,7 +23,6 @@ userController.createTechnical = function (req, res, next) {
     password: req.body.password,
     role: "Technical",
   });
-
   user.save(function (err) {
     if (err) {
       next(err);
@@ -36,7 +31,6 @@ userController.createTechnical = function (req, res, next) {
     }
   });
 };
-
 //Creates an user
 userController.createUser = function (req, res, next) {
   var user = new User({
@@ -45,7 +39,6 @@ userController.createUser = function (req, res, next) {
     role: "User",
     estado: "Suspeito",
   });
-
   user.save(function (err) {
     if (err) {
       next(err);
@@ -54,7 +47,6 @@ userController.createUser = function (req, res, next) {
     }
   });
 };
-
 //Lists all users(admins and technicals included)
 userController.getAllUsers = function (req, res, next) {
   User.find(function (err, users) {
@@ -65,7 +57,6 @@ userController.getAllUsers = function (req, res, next) {
     }
   });
 };
-
 userController.getUserById = function (req, res, next, id) {
   User.findOne({ _id: id }, function (err, user) {
     if (err) {
@@ -120,16 +111,22 @@ userController.updateUserPassword = async (req, res) => {
 };
 
 userController.updateUserState = async (req, res) => {
-  const oldUser = await User.findByIdAndUpdate(req.params.userId, {
-    estado: req.body.estado,
-  });
-
-  //so pode ter os valores permitidos
-  const newUser = await User.findById(req.params.userId);
-  res.send({
-    old: oldUser,
-    new: newUser,
-  });
+  try {
+    const oldUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      {
+        estado: req.body.estado,
+      },
+      { runValidators: true }
+    );
+    const newUser = await User.findById(req.params.userId);
+    res.send({
+      old: oldUser,
+      new: newUser,
+    });
+  } catch (err) {
+    console.log("Error: ", err);
+    res.status(500).send("Something went wrong");
+  }
 };
-
 module.exports = userController;

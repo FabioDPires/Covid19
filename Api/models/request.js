@@ -6,19 +6,16 @@ var requestSchema = new Schema({
     ref: "User",
   },
   encaminhado: {
-    type: String,
+    type: Boolean,
     required: [true, "encaminhado is a required field"],
-    enum: ["Sim", "Não"],
   }, //vem do body
   pessoaRisco: {
-    type: String,
+    type: Boolean,
     required: [true, "pessoaRisco is a required field"],
-    enum: ["Sim", "Não"],
   }, //vem do body
   trabalhoRisco: {
-    type: String,
+    type: Boolean,
     required: [true, "trabalhoRisco is a required field"],
-    enum: ["Sim", "Não"],
   }, //vem do body
   estadoPedido: {
     type: String,
