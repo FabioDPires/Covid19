@@ -23,6 +23,8 @@ router.delete("/user/:userId", userController.deleteUser);
 
 router.get("/user/:userId/history",requestController.getUserRequests);
 
+router.get("/users/infected",userController.infected)
+
 //All the paths with the parameter userId
 router.param("userId", userController.getUserById);
 

@@ -129,4 +129,14 @@ userController.updateUserState = async (req, res) => {
     res.status(500).send("Something went wrong");
   }
 };
+
+userController.infected = function (req, res, next) {
+  User.countDocuments({ estado: "Infetado" }, function (err, count) {
+    if (err) {
+      next(err);
+    } else {
+      res.json(count);
+    }
+  });
+};
 module.exports = userController;
