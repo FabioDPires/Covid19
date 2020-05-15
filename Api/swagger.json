@@ -1,0 +1,59 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "Covid19 Api",
+    "description": "Rest Api that allows to manage tests to Covid19"
+  },
+  "host": "localhost:3000",
+  "basePath": "/api/v1",
+  "tags": [
+    {
+      "name": "Requests",
+      "description": "Api for Covid19 tests in the system"
+    }
+  ],
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/users": {
+      "post": {
+        "tags": ["Users"],
+        "summary": "Creates a new user in the system",
+        "description": "Creates a new user in the system",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    }
+  }
+}

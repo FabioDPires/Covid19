@@ -21,13 +21,16 @@ router.put("/user/:userId/state", userController.updateUserState);
 //Deletes  an user by his Id
 router.delete("/user/:userId", userController.deleteUser);
 
-router.get("/user/:userId/history",requestController.getUserRequests);
+router.get("/user/:userId/history", requestController.getUserRequests);
 
-router.get("/users/infected",userController.infected)
+router.get("/users/infected", userController.infected);
+
+router.get(
+  "/user/:userId/numberOfTests",
+  requestController.getNumberOfUserTests
+);
 
 //All the paths with the parameter userId
 router.param("userId", userController.getUserById);
-
-
 
 module.exports = router;

@@ -4,6 +4,7 @@ var requestSchema = new Schema({
   paciente: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
+    required: [true, "paciente is a required field"],
   },
   encaminhado: {
     type: Boolean,
@@ -19,10 +20,13 @@ var requestSchema = new Schema({
   }, //vem do body
   estadoPedido: {
     type: String,
-    enum: ["Pendente", "Agendado", "Concluído", "Aguarda Resultado"],
+    enum: ["Pendente", "Agendado", "Concluído"],
   },
   resultado: { type: String, enum: ["Positivo", "Negativo"] },
-  dataExame: { type: Date }, //data tem de ser superior a data atual
+  dataExame: {
+    type: Date,
+  },
+  prioridade: { type: Number },
 });
 
 module.exports = mongoose.model("Request", requestSchema);
