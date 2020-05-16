@@ -3,17 +3,16 @@ var Schema = mongoose.Schema;
 
 var userSchema = new Schema({
   cartaoCidadao: {
-    type: Number,
+    type: String,
     require: [true, "cartaoCidadao is a required path"],
     Index: true,
     unique: true,
-    min: [8, "cartaoCidadao must have exactly 8 numbers"],
-    max: [8, "cartaoCidadao must have exactly 8 numbers"],
+    match: /^[0-9]{8}$/,
   },
   password: {
     type: String,
     required: ["password is a required field"],
-    min: [8, "password must be have at least 8 characters"],
+    match: /^[0-9A-za-z]{8,}$/,
   },
   role: { type: String, enum: ["Admin", "Technical", "User"] },
 
