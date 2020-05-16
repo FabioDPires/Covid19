@@ -250,31 +250,7 @@ requestController.getAverageRequestsPerUser = function (req, res, next) {
   });
 };
 
-requestController.getTestsInPeriod = function (req, res) {
-  var startDate = moment(req.params.startTime)
-    .utcOffset("+0100")
-    .format("YYYY-MM-DDTHH:mm:ss.SSSZ"); //req.params.startTime = 2016-09-25 00:00:00
-  var endDate = moment(req.params.endTime)
-    .utcOffset("+0100")
-    .format("YYYY-MM-DDTHH:mm:ss.SSSZ"); //req.params.endTime = 2016-09-25 01:00:00
 
-  //Find
-  Request.find(
-    {
-      dataExame: {
-        $gte: startDate,
-        $lte: endDate,
-      },
-    },
-    function (err, requests) {
-      if (err) {
-        return err;
-      } else {
-        res.json(requests);
-      }
-    }
-  );
-};
 
 requestController.totalTests = function (req, res) {
   Request.countDocuments({ estadoPedido: "Concluído" }, function (err, count) {
