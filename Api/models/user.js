@@ -13,7 +13,7 @@ var userSchema = new Schema({
   password: {
     type: String,
     required: ["password is a required field"],
-    min: 8,
+    min: [8, "password must be have at least 8 characters"],
   },
   role: { type: String, enum: ["Admin", "Technical", "User"] },
 
