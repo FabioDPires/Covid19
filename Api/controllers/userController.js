@@ -7,6 +7,7 @@ userController.createAdmin = function (req, res, next) {
     cartaoCidadao: req.body.cartaoCidadao,
     password: req.body.password,
     role: "Admin",
+    estado: "Suspeito",
   });
   user.save(function (err) {
     if (err) {
@@ -22,6 +23,7 @@ userController.createTechnical = function (req, res, next) {
     cartaoCidadao: req.body.cartaoCidadao,
     password: req.body.password,
     role: "Technical",
+    estado: "Suspeito",
   });
   user.save(function (err) {
     if (err) {
@@ -99,26 +101,6 @@ userController.updateUserPassword = async (req, res) => {
       }
     );
 
-    const newUser = await User.findById(req.params.userId);
-    res.send({
-      old: oldUser,
-      new: newUser,
-    });
-  } catch (err) {
-    console.log("Error: ", err);
-    res.status(500).send("Something went wrong");
-  }
-};
-
-userController.updateUserState = async (req, res) => {
-  try {
-    const oldUser = await User.findByIdAndUpdate(
-      req.params.userId,
-      {
-        estado: req.body.estado,
-      },
-      { runValidators: true }
-    );
     const newUser = await User.findById(req.params.userId);
     res.send({
       old: oldUser,

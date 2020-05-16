@@ -9,7 +9,7 @@
   "basePath": "/api/v1",
   "tags": [
     {
-      "name": "Requests",
+      "name": "Covid19 Tests",
       "description": "Api for Covid19 tests in the system"
     }
   ],
@@ -20,7 +20,6 @@
     "/users": {
       "post": {
         "tags": ["Users"],
-        "summary": "Creates a new user in the system",
         "description": "Creates a new user in the system",
         "parameters": [
           {
@@ -28,7 +27,7 @@
             "in": "body",
             "description": "User that we want to create",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/createUser"
             }
           }
         ],
@@ -49,9 +48,340 @@
           "200": {
             "description": "OK",
             "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "users/technical": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Creates a new user in the system with the role technical",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
               "$href": "#/definitions/User"
             }
           }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "users/admin": {
+      "post": {
+        "tags": ["Users"],
+        "description": "Creates a new user in the system with the role admin",
+        "parameters": [
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User that we want to create",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New user is created",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "/user/{userId}": {
+      "parameters": [
+        {
+          "name": "userId",
+          "in": "path",
+          "required": "true",
+          "description": "Id of the user that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get user with given ID",
+        "responses": {
+          "200": {
+            "description": "Product is found",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete user with given ID",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "Product is deleted",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "user/{userId}/password": {
+      "put": {
+        "summary": "Updates the password of the user with the given ID",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": "true",
+            "description": "Id of the user that we want to find",
+            "type": "string"
+          },
+          {
+            "name": "user",
+            "in": "body",
+            "description": "User with new value of property password",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Password updated",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "user/{userId}/history": {
+      "get": {
+        "summary": "Get all the requests of the user with the given ID",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": "true",
+            "description": "Id of the user that we want to find",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "users/infected": {
+      "get": {
+        "summary": "Get the number of infected users",
+        "tags": ["Users"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "user/{userId}/numberOfTests": {
+      "get": {
+        "summary": "Get the number of times the user with the given ID has been tested",
+        "tags": ["Users"],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": "true",
+            "description": "Id of the user that we want to find",
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/requests": {
+      "post": {
+        "tags": ["Requests"],
+        "description": "Creates a new request in the system",
+        "parameters": [
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Request that we want to create",
+            "schema": {
+              "$href": "#/definitions/createRequest"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "New request is created",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      },
+      "get": {
+        "tags": ["Requests"],
+        "summary": "Get all requests in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "/request/{requestId}": {
+      "parameters": [
+        {
+          "name": "requestId",
+          "in": "path",
+          "required": "true",
+          "description": "Id of the request that we want to find",
+          "type": "string"
+        }
+      ],
+      "get": {
+        "tags": ["Requests"],
+        "summary": "Get request with given ID",
+        "responses": {
+          "200": {
+            "description": "Request is found",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "requests/average": {
+      "get": {
+        "summary": "Get the average of tests by user",
+        "tags": ["Requests"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "request/{requestId}/schedule": {
+      "put": {
+        "summary": "Set the date the test with the given ID will be realized",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": "true",
+            "description": "Id of the request that we want to find",
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Request with new value of property dataExame",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Date updated",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    },
+    "request/{requestId}/setResult": {
+      "put": {
+        "summary": "Set the result of the test with the given ID",
+        "tags": ["Requests"],
+        "parameters": [
+          {
+            "name": "requestId",
+            "in": "path",
+            "required": "true",
+            "description": "Id of the request that we want to find",
+            "type": "string"
+          },
+          {
+            "name": "request",
+            "in": "body",
+            "description": "Request with new value of property resultado",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Result updated",
+            "schema": {
+              "$href": "#/definitions/User"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "createUser": {
+      "required": ["_id", "cartaoCidadao", "password"],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "cartaoCidadao": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "password": {
+          "type": "string",
+          "uniqueItems": true
         }
       }
     }

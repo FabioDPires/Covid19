@@ -6,9 +6,9 @@ router.get("/requests", requestController.getAllRequests);
 //Creates an request
 router.post("/requests", requestController.createRequest);
 
-router.put("/request/schedule/:requestId", requestController.scheduleExam);
+router.put("/request/:requestId/schedule", requestController.scheduleExam);
 
-router.put("/request/setResult/:requestId", requestController.setExameResult);
+router.put("/request/:requestId/setResult", requestController.setExameResult);
 
 router.get("/request/:requestId", requestController.getOneRequest);
 
