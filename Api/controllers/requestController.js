@@ -16,7 +16,7 @@ requestController.createRequest = function (req, res, next) {
         next(err);
       } else {
         if (count > 0) {
-          res.status(500).send("This user still has unfinished requests");
+          res.status(400).send("This user still has unfinished requests");
         } else {
           const user = await User.findById({ _id: req.body.paciente });
           var prioridade = 10;
@@ -55,11 +55,11 @@ requestController.createRequest = function (req, res, next) {
 //Sets the date for an exam and changes the request state to scheduled
 requestController.scheduleExam = async (req, res) => {
   if (new Date(req.body.dataExame) <= new Date()) {
-    res.status(500).send("dataExame must be greather than today´s date");
+    res.status(400).send("dataExame must be greather than today´s date");
   } else {
     const checkScheduled = await Request.findById(req.params.requestId);
     if (checkScheduled.estadoPedido === "Concluído") {
-      res.status(500).send("You can´t set schedule an already finished exame");
+      res.status(400).send("You can´t schedule an already finished exame");
     } else {
       try {
         const oldRequest = await Request.findByIdAndUpdate(
@@ -87,9 +87,9 @@ requestController.scheduleExam = async (req, res) => {
 requestController.setExameResult = async (req, res) => {
   const checkScheduled = await Request.findById(req.params.requestId);
   if (checkScheduled.dataExame === undefined) {
-    res.status(500).send("You can´t set the result for an unscheduled exame");
+    res.status(400).send("You can´t set the result for an unscheduled exame");
   } else if (checkScheduled.estadoPedido === "Concluído") {
-    res.status(500).send("You can´t change the result of a finished exame");
+    res.status(400).send("You can´t change the result of a finished exame");
   } else {
     try {
       const oldRequest = await Request.findByIdAndUpdate(
@@ -233,7 +233,7 @@ requestController.getNumberOfUserTests = function (req, res) {
   });
 };
 
-requestController.getAverageRequestsPerUser = function (req, res) {
+requestController.getAverageRequestsPerUser = function (req, res, next) {
   Request.countDocuments(function (err, countRequests) {
     if (err) {
       next(err);
@@ -250,11 +250,34 @@ requestController.getAverageRequestsPerUser = function (req, res) {
   });
 };
 
-/*requestController.getTestsOfDay = function (req, res) {
-  Request.countDocuments({ dataExame.getDate():req.params.dia ,dataExame.getMonth():req.params.mes, dataExame.getFullYear():req.params.ano }, function (
-    err,
-    count
-  ) {
+requestController.getTestsInPeriod = function (req, res) {
+  var startDate = moment(req.params.startTime)
+    .utcOffset("+0100")
+    .format("YYYY-MM-DDTHH:mm:ss.SSSZ"); //req.params.startTime = 2016-09-25 00:00:00
+  var endDate = moment(req.params.endTime)
+    .utcOffset("+0100")
+    .format("YYYY-MM-DDTHH:mm:ss.SSSZ"); //req.params.endTime = 2016-09-25 01:00:00
+
+  //Find
+  Request.find(
+    {
+      dataExame: {
+        $gte: startDate,
+        $lte: endDate,
+      },
+    },
+    function (err, requests) {
+      if (err) {
+        return err;
+      } else {
+        res.json(requests);
+      }
+    }
+  );
+};
+
+requestController.totalTests = function (req, res) {
+  Request.countDocuments({ estadoPedido: "Concluído" }, function (err, count) {
     if (err) {
       next(err);
     } else {
@@ -262,5 +285,5 @@ requestController.getAverageRequestsPerUser = function (req, res) {
     }
   });
 };
-*/
+
 module.exports = requestController;

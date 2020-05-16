@@ -64,7 +64,7 @@
             "in": "body",
             "description": "User that we want to create",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/createUser"
             }
           }
         ],
@@ -89,7 +89,7 @@
             "in": "body",
             "description": "User that we want to create",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/createUser"
             }
           }
         ],
@@ -156,7 +156,7 @@
             "in": "body",
             "description": "User with new value of property password",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/updatePassword"
             }
           }
         ],
@@ -187,7 +187,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/Requests"
             }
           }
         }
@@ -196,12 +196,12 @@
     "users/infected": {
       "get": {
         "summary": "Get the number of infected users",
-        "tags": ["Users"],
+        "tags": ["Stats"],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/Count"
             }
           }
         }
@@ -209,7 +209,7 @@
     },
     "user/{userId}/numberOfTests": {
       "get": {
-        "summary": "Get the number of times the user with the given ID has been tested",
+        "summary": "Get the number of requests the user with the given ID has made",
         "tags": ["Users"],
         "parameters": [
           {
@@ -224,7 +224,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/Count"
             }
           }
         }
@@ -249,8 +249,11 @@
           "200": {
             "description": "New request is created",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/Request"
             }
+          },
+          "400": {
+            "description": "The user still has unfinished requests"
           }
         }
       },
@@ -261,7 +264,7 @@
           "200": {
             "description": "OK",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/Requests"
             }
           }
         }
@@ -284,7 +287,7 @@
           "200": {
             "description": "Request is found",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/Request"
             }
           }
         }
@@ -293,12 +296,12 @@
     "requests/average": {
       "get": {
         "summary": "Get the average of tests by user",
-        "tags": ["Requests"],
+        "tags": ["Stats"],
         "responses": {
           "200": {
             "description": "OK",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/Count"
             }
           }
         }
@@ -321,7 +324,7 @@
             "in": "body",
             "description": "Request with new value of property dataExame",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/scheduleExam"
             }
           }
         ],
@@ -329,8 +332,11 @@
           "200": {
             "description": "Date updated",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/Request"
             }
+          },
+          "400": {
+            "description": "Test´s date lesser than today´s date or already finished request"
           }
         }
       }
@@ -352,7 +358,7 @@
             "in": "body",
             "description": "Request with new value of property resultado",
             "schema": {
-              "$href": "#/definitions/Users"
+              "$href": "#/definitions/setResult"
             }
           }
         ],
@@ -360,7 +366,24 @@
           "200": {
             "description": "Result updated",
             "schema": {
-              "$href": "#/definitions/User"
+              "$href": "#/definitions/Request"
+            }
+          },
+          "400": {
+            "description": "Request already finished"
+          }
+        }
+      }
+    },
+    "requests/total": {
+      "get": {
+        "summary": "Get the total of tests realized",
+        "tags": ["Stats"],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Count"
             }
           }
         }
@@ -380,8 +403,125 @@
           "uniqueItems": true
         },
         "password": {
+          "type": "string"
+        }
+      }
+    },
+    "updatePassword": {
+      "required": ["password"],
+      "properties": {
+        "password": {
+          "type": "string"
+        }
+      }
+    },
+    "User": {
+      "required": ["_id", "cartaoCidadao", "password"],
+      "properties": {
+        "_id": {
           "type": "string",
           "uniqueItems": true
+        },
+        "cartaoCidadao": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "role": {
+          "type": "string"
+        },
+        "estado": {
+          "type": "string"
+        }
+      }
+    },
+    "Users": {
+      "type": "array",
+      "$href": "#/definitions/User"
+    },
+    "createRequest": {
+      "required": [
+        "_id",
+        "paciente",
+        "pessoaRisco",
+        "encaminhado",
+        "trabalhoRisco"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "paciente": {
+          "type": "string"
+        },
+        "encaminhado": {
+          "type": "boolean"
+        },
+        "pessoaRisco": {
+          "type": "boolean"
+        },
+        "trabalhoRisco": {
+          "type": "boolean"
+        }
+      }
+    },
+    "Request": {
+      "required": [
+        "_id",
+        "paciente",
+        "pessoaRisco",
+        "encaminhado",
+        "trabalhoRisco"
+      ],
+      "properties": {
+        "_id": {
+          "type": "string",
+          "uniqueItems": true
+        },
+        "paciente": {
+          "type": "string"
+        },
+        "encaminhado": {
+          "type": "boolean"
+        },
+        "pessoaRisco": {
+          "type": "boolean"
+        },
+        "trabalhoRisco": {
+          "type": "boolean"
+        },
+        "dataExame": {
+          "type": "Date"
+        },
+        "resultado": {
+          "type": "string"
+        }
+      }
+    },
+    "Requests": {
+      "type": "array",
+      "$href": "#/definitions/Request"
+    },
+    "scheduleExame": {
+      "required": ["dataExame"],
+      "properties": {
+        "dataExame": {
+          "type": "Date"
+        }
+      }
+    },
+    "setResult": {
+      "required": ["resultado"],
+      "properties": {
+        "resultado": {
+          "type": "String"
+        }
+      }
+    },
+    "Count": {
+      "properties": {
+        "count": {
+          "type": "number"
         }
       }
     }

@@ -14,7 +14,9 @@ router.get("/request/:requestId", requestController.getOneRequest);
 
 router.get("/requests/average", requestController.getAverageRequestsPerUser);
 
-//router.get("/requests/:date", requestController.getTestsOfDay);
+router.get("/requests/:startDate/:endDate", requestController.getTestsInPeriod);
+
+router.get("/requests/total", requestController.totalTests);
 
 //All the paths with the parameter requestId
 router.param("requestId", requestController.getRequestById);
