@@ -16,7 +16,6 @@ var app = express();
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
 
-//E NECESSARIO INSTALAR O CORS
 mongoose
   .connect("mongodb://localhost:27017/Covid19")
   .then(() => console.log("Connected to the database"))
@@ -26,7 +25,12 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(cors());
+app.use(
+  cors({
+    credentials: true,
+    origin: "http://localhost:4200",
+  })
+);
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

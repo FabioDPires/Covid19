@@ -1,0 +1,19 @@
+<div *ngIf="request">
+  <h2>Paciente</h2>
+  <p>{{ request.paciente }}</p>
+  <h2>Encaminhado pela saude 24</h2>
+  <p>{{ request.encaminhado }}</p>
+  <h2>Pessoa de Risco</h2>
+  <p>{{ request.pessoaRisco }}</p>
+  <h2>Trabalha num local de risco</h2>
+  <p>{{ request.trabalhoRisco }}</p>
+  <h2>Estado do pedido</h2>
+  <p>{{ request.estadoPedido }}</p>
+  <h2 *ngIf="request.dataExame">Data do exame</h2>
+  <p>{{ request.dataExame }}</p>
+  <h2 *ngIf="request.resultado">Resultado</h2>
+  <p>{{ request.resultado }}</p>
+  <div *ngIf="request.dataExame">
+    <button (click)="setResult()">"Agendar Teste</button>
+  </div>
+</div>
