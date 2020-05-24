@@ -1,0 +1,25 @@
+<div>
+  <h2>Pedido de Teste</h2>
+  <div>
+    <label
+      >Paciente:
+      <input
+        [(ngModel)]="requestData.paciente"
+        placeholder="id do paciente"
+      /> </label
+    ><br />
+    <label>
+      Foi encaminhado pelo saude 24?
+      <input [(ngModel)]="requestData.encaminhado" /> </label
+    ><br />
+    <label>
+      É uma pessoa de risco?
+      <input [(ngModel)]="requestData.pessoaRisco" /> </label
+    ><br />
+    <label>
+      Trabalha num local de risco?
+      <input [(ngModel)]="requestData.trabalhoRisco" /> </label
+    ><br />
+  </div>
+  <button (click)="addProduct()">Enviar Pedido</button>
+</div>

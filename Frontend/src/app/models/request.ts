@@ -8,16 +8,4 @@ export class Request {
   dataExame: Date;
   resultado: string;
   prioridade: number;
-
-  constructor(
-    paciente: string,
-    encaminhado: boolean,
-    pessoaRisco: boolean,
-    trabalhoRisco: boolean
-  ) {
-    this.paciente = paciente;
-    this.encaminhado = encaminhado;
-    this.pessoaRisco = pessoaRisco;
-    this.trabalhoRisco = trabalhoRisco;
-  }
 }

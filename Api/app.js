@@ -10,8 +10,11 @@ var swaggerDocument = require("./swagger.json");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var requestsRouter = require("./routes/requests");
+var authRouter = require("./routes/auth");
 
 var app = express();
+
+app.use(cors());
 
 var mongoose = require("mongoose");
 mongoose.Promise = global.Promise;
@@ -25,12 +28,12 @@ mongoose
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
-app.use(
+/*app.use(
   cors({
     credentials: true,
     origin: "http://localhost:4200",
   })
-);
+);*/
 app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
@@ -41,6 +44,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 app.use("/", indexRouter);
 app.use("/api/v1", usersRouter);
 app.use("/api/v1", requestsRouter);
+app.use("/api/v1/auth", authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

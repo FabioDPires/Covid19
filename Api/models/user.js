@@ -12,7 +12,6 @@ var userSchema = new Schema({
   password: {
     type: String,
     required: ["password is a required field"],
-    match: /^[0-9A-za-z]{8,}$/,
   },
   role: { type: String, enum: ["Admin", "Technical", "User"] },
 

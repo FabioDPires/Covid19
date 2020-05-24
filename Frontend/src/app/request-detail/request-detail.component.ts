@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Request } from '../models/request';
 import { ActivatedRoute, Router } from '@angular/router';
 import { RestService } from '../rest.service';
@@ -9,7 +9,10 @@ import { RestService } from '../rest.service';
   styleUrls: ['./request-detail.component.css'],
 })
 export class RequestDetailComponent implements OnInit {
+  @Input() requestData: any = { dataExame: '', resultado: '' };
   request: Request;
+  paciente: any;
+  emptyData: false;
 
   constructor(
     public rest: RestService,
@@ -22,14 +25,38 @@ export class RequestDetailComponent implements OnInit {
     console.log(idTemp);
     this.rest.getRequest(idTemp).subscribe((data: Request) => {
       this.request = data;
+      this.paciente = data.paciente;
+      console.log(data);
     });
   }
 
   scheduleExam() {
-    console.log('SCHEDULE EXAM WORKS!!!');
+    const id = this.route.snapshot.params['id'];
+    let dataExamObject: any = null;
+    dataExamObject = { dataExame: this.requestData.dataExame };
+    console.log(this.requestData);
+    this.rest.scheduleRequest(id, dataExamObject).subscribe(
+      (result) => {
+        this.router.navigate(['/request-details/' + id]);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 
   setResult() {
-    console.log('SET RESULT WORKS!!!');
+    const id = this.route.snapshot.params['id'];
+    let dataResultObject: any = null;
+    dataResultObject = { resultado: this.requestData.resultado };
+    console.log(this.requestData);
+    this.rest.setRequestResult(id, dataResultObject).subscribe(
+      (result) => {
+        this.router.navigate(['/request-details/' + id]);
+      },
+      (err) => {
+        console.log(err);
+      }
+    );
   }
 }

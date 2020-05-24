@@ -1,19 +1,36 @@
 <div *ngIf="request">
-  <h2>Paciente</h2>
-  <p>{{ request.paciente }}</p>
-  <h2>Encaminhado pela saude 24</h2>
-  <p>{{ request.encaminhado }}</p>
-  <h2>Pessoa de Risco</h2>
-  <p>{{ request.pessoaRisco }}</p>
-  <h2>Trabalha num local de risco</h2>
-  <p>{{ request.trabalhoRisco }}</p>
+  <h2>Informação do Paciente</h2>
+  <p>Cartão de Cidadão:{{ paciente.cartaoCidadao }}</p>
+  <p>Estado:{{ paciente.estado }}</p>
+  <h2
+    *ngIf="request.encaminhado || request.pessoaRisco || request.trabalhoRisco"
+  >
+    Outras informações
+  </h2>
+  <p *ngIf="request.encaminhado">Encaminhado pela saude 24</p>
+  <p *ngIf="request.pessoaRisco">Pessoa de Risco</p>
+  <p *ngIf="request.trabalhoRisco">Trabalha num local de risco</p>
   <h2>Estado do pedido</h2>
   <p>{{ request.estadoPedido }}</p>
-  <h2 *ngIf="request.dataExame">Data do exame</h2>
+  <h2>Data do exame</h2>
+  <div *ngIf="!request.dataExame">
+    <p>Inserir data do Exame</p>
+    <input [(ngModel)]="requestData.dataExame" placeholder="Data do teste" />
+    <br />
+    <button (click)="scheduleExam()">Agendar Teste</button>
+  </div>
   <p>{{ request.dataExame }}</p>
+
+  <div *ngIf="request.dataExame && !request.resultado">
+    <h2>Resultado</h2>
+    <p>Inserir Resultado</p>
+    <input
+      [(ngModel)]="requestData.resultado"
+      placeholder="Resultado do Teste"
+    />
+    <br />
+    <button (click)="setResult()">Confirmar resultado</button>
+  </div>
   <h2 *ngIf="request.resultado">Resultado</h2>
   <p>{{ request.resultado }}</p>
-  <div *ngIf="request.dataExame">
-    <button (click)="setResult()">"Agendar Teste</button>
-  </div>
 </div>
