@@ -7,25 +7,27 @@ import { AppComponent } from './app.component';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { RequestAddComponent } from './request-add/request-add.component';
-import { RequestScheduleComponent } from './request-schedule/request-schedule.component';
-import { RequestResultComponent } from './request-result/request-result.component';
 import { TechnicalAddComponent } from './technical-add/technical-add.component';
 import { JWTInterceptorService } from './helpers/jwtinterceptor.service';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
 import { RequestComponent } from './request/request.component';
+import { UserAddComponent } from './user-add/user-add.component';
+import { AdminAddComponent } from './admin-add/admin-add.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     RequestDetailComponent,
     RequestAddComponent,
-    RequestScheduleComponent,
-    RequestResultComponent,
     TechnicalAddComponent,
     LoginComponent,
     UserComponent,
     RequestComponent,
+    UserAddComponent,
+    AdminAddComponent,
+    NavbarComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

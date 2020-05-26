@@ -18,7 +18,7 @@ export class RequestAddComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  addProduct() {
+  addRequest() {
     this.rest.addRequest(this.requestData).subscribe(
       (result: Request) => {
         console.log('Request added: ' + result);

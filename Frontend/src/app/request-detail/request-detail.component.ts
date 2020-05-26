@@ -12,7 +12,6 @@ export class RequestDetailComponent implements OnInit {
   @Input() requestData: any = { dataExame: '', resultado: '' };
   request: Request;
   paciente: any;
-  emptyData: false;
 
   constructor(
     public rest: RestService,

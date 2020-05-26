@@ -1,25 +1,19 @@
+<app-navbar></app-navbar>
 <div>
   <h2>Pedido de Teste</h2>
   <div>
-    <label
-      >Paciente:
-      <input
-        [(ngModel)]="requestData.paciente"
-        placeholder="id do paciente"
-      /> </label
-    ><br />
     <label>
       Foi encaminhado pelo saude 24?
-      <input [(ngModel)]="requestData.encaminhado" /> </label
+      <input [(ngModel)]="requestData.encaminhado" type="checkbox" /> </label
     ><br />
     <label>
       É uma pessoa de risco?
-      <input [(ngModel)]="requestData.pessoaRisco" /> </label
+      <input [(ngModel)]="requestData.pessoaRisco" type="checkbox" /> </label
     ><br />
     <label>
       Trabalha num local de risco?
-      <input [(ngModel)]="requestData.trabalhoRisco" /> </label
+      <input [(ngModel)]="requestData.trabalhoRisco" type="checkbox" /> </label
     ><br />
   </div>
-  <button (click)="addProduct()">Enviar Pedido</button>
+  <button (click)="addRequest()">Enviar Pedido</button>
 </div>

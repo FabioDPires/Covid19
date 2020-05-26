@@ -1,4 +1,5 @@
 var User = require("../models/user");
+var Request = require("../models/request");
 var jwt = require("jsonwebtoken"); // used to create, sign, and verify tokens
 var bcrypt = require("bcryptjs");
 var config = require("../authconfig"); // get config file
@@ -19,7 +20,7 @@ authController.login = function (req, res) {
       expiresIn: 86400, // expires in 24 hours
     });
     // return the information including token as JSON
-    res.status(200).send({ auth: true, token: token });
+    res.status(200).send({ auth: true, token: token, role: user.role });
   });
 };
 
@@ -105,6 +106,7 @@ authController.registerTechnical = function (req, res) {
         if (err) return res.status(400).send({ message: err.message });
         // if user is registered without errors
         // create a token
+
         var token = jwt.sign({ id: user._id, role: user.role }, config.secret, {
           expiresIn: 86400, // expires in 24 hours
         });
@@ -112,6 +114,55 @@ authController.registerTechnical = function (req, res) {
       }
     );
   }
+};
+
+authController.createRequest = function (req, res) {
+  Request.countDocuments(
+    {
+      estadoPedido: { $in: ["Pendente", "Agendado"] },
+      paciente: req.body.paciente,
+    },
+    async function (err, count) {
+      if (err) {
+        next(err);
+      } else {
+        if (count > 0) {
+          res.status(400).send("This user still has unfinished requests");
+        } else {
+          const userId = req.userId;
+          const user = await User.findById({ _id: userId });
+          var prioridade = 10;
+          if (user.estado === "Infetado") {
+            prioridade += 7;
+          }
+          if (req.body.pessoaRisco === true) {
+            prioridade += 3;
+          }
+          if (req.body.trabalhoRisco === true) {
+            prioridade += 2;
+          }
+          if (req.body.encaminhado === true) {
+            prioridade += 2;
+          }
+          var request = new Request({
+            paciente: userId,
+            encaminhado: req.body.encaminhado,
+            pessoaRisco: req.body.pessoaRisco,
+            trabalhoRisco: req.body.trabalhoRisco,
+            estadoPedido: "Pendente",
+            prioridade: prioridade * 20,
+          });
+          request.save(function (err) {
+            if (err) {
+              next(err);
+            } else {
+              res.json(request);
+            }
+          });
+        }
+      }
+    }
+  );
 };
 
 //middleware
@@ -141,6 +192,19 @@ authController.verifyRoleAdmin = function (req, res, next) {
       return res.status(500).send("There was a problem finding the user.");
     if (!user) return res.status(404).send("No user found.");
     if (user.role === "Admin") {
+      next();
+    } else {
+      return res.status(403).send({ auth: false, message: "Not authorized!" });
+    }
+  });
+};
+
+authController.verifyRoleTechnical = function (req, res, next) {
+  User.findById(req.userId, function (err, user) {
+    if (err)
+      return res.status(500).send("There was a problem finding the user.");
+    if (!user) return res.status(404).send("No user found.");
+    if (user.role === "Technical") {
       next();
     } else {
       return res.status(403).send({ auth: false, message: "Not authorized!" });

@@ -2,12 +2,13 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { RequestDetailComponent } from './request-detail/request-detail.component';
 import { RequestAddComponent } from './request-add/request-add.component';
-import { RequestResultComponent } from './request-result/request-result.component';
-import { RequestScheduleComponent } from './request-schedule/request-schedule.component';
 import { TechnicalAddComponent } from './technical-add/technical-add.component';
 import { AuthGuardService } from './helpers/auth-guard.service';
 import { LoginComponent } from './login/login.component';
 import { UserComponent } from './user/user.component';
+import { UserAddComponent } from './user-add/user-add.component';
+import { RequestComponent } from './request/request.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 const routes: Routes = [
   {
@@ -25,15 +26,6 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
-    path: 'request-schedule/:id',
-    component: RequestScheduleComponent,
-    canActivate: [AuthGuardService],
-  },
-  {
-    path: 'request-result/:id',
-    component: RequestResultComponent,
-  },
-  {
     path: 'technical-add',
     component: TechnicalAddComponent,
     canActivate: [AuthGuardService],
@@ -41,6 +33,20 @@ const routes: Routes = [
   {
     path: 'users',
     component: UserComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'user-add',
+    component: UserAddComponent,
+  },
+  {
+    path: 'requests',
+    component: RequestComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'nav',
+    component: NavbarComponent,
     canActivate: [AuthGuardService],
   },
 ];

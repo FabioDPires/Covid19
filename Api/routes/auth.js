@@ -2,12 +2,18 @@ var express = require("express");
 var router = express.Router();
 var authController = require("../controllers/authController");
 var userController = require("../controllers/userController");
+var requestController = require("../controllers/requestController");
 
 router.post("/login", authController.login);
 
 router.post("/register", authController.registerUser);
 
-router.post("/register/admin", authController.registerAdmin);
+router.post(
+  "/register/admin",
+  authController.verifyToken,
+  authController.verifyRoleAdmin,
+  authController.registerAdmin
+);
 
 router.post(
   "/register/technical",
@@ -25,5 +31,18 @@ router.get(
   authController.verifyToken,
   authController.verifyRoleAdmin,
   userController.getAllUsers
+);
+
+router.post(
+  "/createRequest",
+  authController.verifyToken,
+  authController.createRequest
+);
+
+router.get(
+  "/allRequests",
+  authController.verifyToken,
+  authController.verifyRoleTechnical,
+  requestController.getAllRequests
 );
 module.exports = router;

@@ -1,0 +1,14 @@
+<div>
+  <h2>Criar utilizador</h2>
+  <div>
+    <label
+      >Cartão de Cidadão:
+      <input [(ngModel)]="userData.cartaoCidadao" required /> </label
+    ><br />
+    <label>
+      Password
+      <input type="password" [(ngModel)]="userData.password" required /> </label
+    ><br />
+  </div>
+  <button (click)="addUser()">Criar</button>
+</div>

@@ -1,0 +1,41 @@
+<header class="header">
+  <div class="aside">
+    <div *ngIf="role == 'Admin'">
+      <a
+        routerLink="/"
+        routerLinkActive="is-selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Página Inicial</a
+      >
+      <a routerLink="/admin-add" routerLinkActive="is-selected">Criar admin</a>
+      <a routerLink="/technical-add" routerLinkActive="is-selected"
+        >Criar técnico</a
+      >
+    </div>
+    <div *ngIf="role == 'Technical'">
+      <a
+        routerLink="/"
+        routerLinkActive="is-selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Página Inicial</a
+      >
+      <a routerLink="/requests" routerLinkActive="is-selected"
+        >Pedidos de Teste</a
+      >
+    </div>
+    <div *ngIf="role == 'User'">
+      <a
+        routerLink="/"
+        routerLinkActive="is-selected"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Página Inicial</a
+      >
+      <a routerLink="/request-add" routerLinkActive="is-selected"
+        >Fazer Pedido de Teste</a
+      >
+    </div>
+  </div>
+  <div>
+    <button (click)="logout()">Logout</button>
+  </div>
+</header>

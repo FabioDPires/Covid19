@@ -26,9 +26,13 @@ export class RestService {
     return this.http.get<Request>(endpoint + 'request/' + id, httpOptions);
   }
 
+  getRequests(): Observable<Request[]> {
+    return this.http.get<Request[]>(endpoint + 'auth/allRequests');
+  }
+
   addRequest(request: Request): Observable<Request> {
     return this.http.post<Request>(
-      endpoint + 'requests',
+      endpoint + 'auth/createRequest',
       JSON.stringify(request),
       httpOptions
     );
@@ -54,6 +58,14 @@ export class RestService {
     return this.http.post<User>(
       endpoint + 'auth/register/technical',
       JSON.stringify(technical),
+      httpOptions
+    );
+  }
+
+  addUser(user: User): Observable<User> {
+    return this.http.post<User>(
+      endpoint + 'auth/register',
+      JSON.stringify(user),
       httpOptions
     );
   }
