@@ -1,0 +1,16 @@
+<ul class="historic">
+  <table>
+    <tr>
+      <th>Estado do Pedido</th>
+      <th>Data do Teste</th>
+      <th>Resultado</th>
+    </tr>
+    <li *ngFor="let h of history">
+      <tr>
+        <td>{{ h.estadoPedido }}</td>
+        <td>{{ h.dataExame }}</td>
+        <td>{{ h.resultado }}</td>
+      </tr>
+    </li>
+  </table>
+</ul>

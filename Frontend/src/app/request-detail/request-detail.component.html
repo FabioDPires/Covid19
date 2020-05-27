@@ -1,7 +1,13 @@
 <app-navbar></app-navbar>
 <div *ngIf="request">
   <h2>Informação do Paciente</h2>
-  <p>Cartão de Cidadão:{{ paciente.cartaoCidadao }}</p>
+  <p>
+    Cartão de Cidadão:<a
+      routerLink="/user-profile/{{ paciente._id }}"
+      routerLinkActive="is-selected"
+      >{{ paciente.cartaoCidadao }}</a
+    >
+  </p>
   <p>Estado:{{ paciente.estado }}</p>
   <h2
     *ngIf="request.encaminhado || request.pessoaRisco || request.trabalhoRisco"
@@ -16,7 +22,11 @@
   <h2>Data do exame</h2>
   <div *ngIf="!request.dataExame">
     <p>Inserir data do Exame</p>
-    <input [(ngModel)]="requestData.dataExame" placeholder="Data do teste" />
+    <input
+      type="date"
+      [(ngModel)]="requestData.dataExame"
+      placeholder="Data do teste"
+    />
     <br />
     <button (click)="scheduleExam()">Agendar Teste</button>
   </div>
@@ -25,10 +35,11 @@
   <div *ngIf="request.dataExame && !request.resultado">
     <h2>Resultado</h2>
     <p>Inserir Resultado</p>
-    <input
-      [(ngModel)]="requestData.resultado"
-      placeholder="Resultado do Teste"
-    />
+    <input type="radio" [(ngModel)]="requestData.resultado" value="Negativo" />
+    Negativo
+    <input type="radio" [(ngModel)]="requestData.resultado" value="Positivo" />
+    Positivo
+
     <br />
     <button (click)="setResult()">Confirmar resultado</button>
   </div>

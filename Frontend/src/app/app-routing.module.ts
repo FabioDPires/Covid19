@@ -9,11 +9,18 @@ import { UserComponent } from './user/user.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { RequestComponent } from './request/request.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { AdminAddComponent } from './admin-add/admin-add.component';
+import { UserHistoricComponent } from './user-historic/user-historic.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
+  },
+  {
+    path: 'history/:id',
+    component: UserHistoricComponent,
   },
   {
     path: 'request-details/:id',
@@ -31,6 +38,11 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
+    path: 'admin-add',
+    component: AdminAddComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
     path: 'users',
     component: UserComponent,
     canActivate: [AuthGuardService],
@@ -45,8 +57,8 @@ const routes: Routes = [
     canActivate: [AuthGuardService],
   },
   {
-    path: 'nav',
-    component: NavbarComponent,
+    path: 'user-profile/:id',
+    component: UserProfileComponent,
     canActivate: [AuthGuardService],
   },
 ];

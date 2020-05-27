@@ -8,15 +8,15 @@ var requestSchema = new Schema({
   },
   encaminhado: {
     type: Boolean,
-    required: [true, "encaminhado is a required field"],
+    default: false,
   }, //vem do body
   pessoaRisco: {
     type: Boolean,
-    required: [true, "pessoaRisco is a required field"],
+    default: false,
   }, //vem do body
   trabalhoRisco: {
     type: Boolean,
-    required: [true, "trabalhoRisco is a required field"],
+    default: false,
   }, //vem do body
   estadoPedido: {
     type: String,

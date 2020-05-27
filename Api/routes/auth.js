@@ -45,4 +45,10 @@ router.get(
   authController.verifyRoleTechnical,
   requestController.getAllRequests
 );
+
+router.get(
+  "/userProfile/:userId",
+  authController.verifyToken,
+  authController.userProfile
+);
 module.exports = router;

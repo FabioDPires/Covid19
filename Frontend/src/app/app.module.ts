@@ -15,6 +15,8 @@ import { RequestComponent } from './request/request.component';
 import { UserAddComponent } from './user-add/user-add.component';
 import { AdminAddComponent } from './admin-add/admin-add.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import { UserHistoricComponent } from './user-historic/user-historic.component';
+import { UserProfileComponent } from './user-profile/user-profile.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +30,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     UserAddComponent,
     AdminAddComponent,
     NavbarComponent,
+    UserHistoricComponent,
+    UserProfileComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
   providers: [

@@ -1,1 +1,15 @@
 <app-navbar></app-navbar>
+<div>
+  <h2>Criar Admin</h2>
+  <div>
+    <label
+      >Identificador do Administrador:
+      <input [(ngModel)]="adminData.cartaoCidadao" /> </label
+    ><br />
+    <label>
+      Password ?
+      <input [(ngModel)]="adminData.password" /> </label
+    ><br />
+  </div>
+  <button (click)="addAdmin()">Criar</button>
+</div>

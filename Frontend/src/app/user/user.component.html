@@ -2,6 +2,7 @@
 <h2>Lista de utilizadores</h2>
 <ul class="users">
   <li *ngFor="let u of users; let i = index">
-    <span class="badge">{{ i + 1 }}</span> {{ u.cartaoCidadao }}
+    <p>{{ u.cartaoCidadao }}</p>
+    <p>{{ u.role }}</p>
   </li>
 </ul>

@@ -120,10 +120,11 @@ authController.createRequest = function (req, res) {
   Request.countDocuments(
     {
       estadoPedido: { $in: ["Pendente", "Agendado"] },
-      paciente: req.body.paciente,
+      paciente: req.userId,
     },
     async function (err, count) {
       if (err) {
+        console.log(err);
         next(err);
       } else {
         if (count > 0) {
@@ -217,6 +218,16 @@ authController.profile = function (req, res, next) {
     if (err) {
       console.log("Error: ", err);
       res.json(err);
+    } else {
+      res.json(user);
+    }
+  });
+};
+
+authController.userProfile = function (req, res) {
+  User.findOne({ _id: req.params.userId }).exec(function (err, user) {
+    if (err) {
+      next(err);
     } else {
       res.json(user);
     }

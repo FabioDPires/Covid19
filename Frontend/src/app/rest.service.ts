@@ -70,7 +70,23 @@ export class RestService {
     );
   }
 
+  addAdmin(admin: User): Observable<User> {
+    return this.http.post<User>(
+      endpoint + 'auth/register/admin',
+      JSON.stringify(admin),
+      httpOptions
+    );
+  }
+
+  getUser(id: String): Observable<User> {
+    return this.http.get<User>(endpoint + 'auth/userProfile/' + id);
+  }
+
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(endpoint + 'auth/allUsers');
+  }
+
+  getHistory(id: String): Observable<Request[]> {
+    return this.http.get<Request[]>(endpoint + 'user/' + id + '/history');
   }
 }
