@@ -1,15 +1,17 @@
 <app-navbar></app-navbar>
-<div>
+<div class="content">
   <h2>Criar Admin</h2>
   <div>
-    <label
-      >Identificador do Administrador:
-      <input [(ngModel)]="adminData.cartaoCidadao" /> </label
-    ><br />
-    <label>
-      Password ?
-      <input [(ngModel)]="adminData.password" /> </label
-    ><br />
+    Identificador do Administrador
+    <br />
+    <input [(ngModel)]="adminData.cartaoCidadao" /> <br />
+
+    Password
+    <br />
+    <input type="password" [(ngModel)]="adminData.password" /> <br />
+    <br />
   </div>
-  <button (click)="addAdmin()">Criar</button>
+  <button mat-raised-button (click)="addAdmin()">Criar</button>
+  <p *ngIf="error">{{ error }}</p>
+  <p *ngIf="success">{{ success }}</p>
 </div>

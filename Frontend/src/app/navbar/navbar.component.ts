@@ -9,6 +9,8 @@ import { Router } from '@angular/router';
 })
 export class NavbarComponent implements OnInit {
   role: any;
+  id: any;
+
   constructor(
     private router: Router,
     private authServive: AuthenticationService
@@ -18,6 +20,7 @@ export class NavbarComponent implements OnInit {
     let currentUser = JSON.parse(localStorage.getItem('currentUser'));
     console.log('Role', currentUser.role);
     this.role = currentUser.role;
+    this.id = currentUser.id;
   }
 
   logout() {

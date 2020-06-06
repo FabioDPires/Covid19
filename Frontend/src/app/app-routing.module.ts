@@ -12,6 +12,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { AdminAddComponent } from './admin-add/admin-add.component';
 import { UserHistoricComponent } from './user-historic/user-historic.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,11 @@ const routes: Routes = [
   {
     path: 'user-profile/:id',
     component: UserProfileComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'user-password/:id',
+    component: ChangePasswordComponent,
     canActivate: [AuthGuardService],
   },
 ];

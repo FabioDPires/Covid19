@@ -1,14 +1,15 @@
-<div>
+<div class="container">
   <h2>Criar utilizador</h2>
   <div>
-    <label
-      >Cartão de Cidadão:
-      <input [(ngModel)]="userData.cartaoCidadao" required /> </label
-    ><br />
-    <label>
-      Password
-      <input type="password" [(ngModel)]="userData.password" required /> </label
-    ><br />
+    Cartão de Cidadão
+    <br />
+    <input [(ngModel)]="userData.cartaoCidadao" required />
+    <br />
+
+    Password
+    <br />
+    <input type="password" [(ngModel)]="userData.password" required />
+    <br />
   </div>
-  <button (click)="addUser()">Criar</button>
+  <button mat-raised-button (click)="addUser()">Criar</button>
 </div>

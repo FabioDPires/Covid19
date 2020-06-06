@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class RequestAddComponent implements OnInit {
   @Input() requestData: Request = new Request();
+  error: any;
   constructor(
     public rest: RestService,
     private route: ActivatedRoute,
@@ -26,6 +27,7 @@ export class RequestAddComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.error = err.error;
       }
     );
   }

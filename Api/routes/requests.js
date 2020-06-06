@@ -4,7 +4,7 @@ var requestController = require("../controllers/requestController");
 
 router.get("/requests", requestController.getAllRequests);
 //Creates an request
-router.post("/requests", requestController.createRequest);
+//router.post("/requests", requestController.createRequest);
 
 router.put("/request/:requestId/schedule", requestController.scheduleExam);
 

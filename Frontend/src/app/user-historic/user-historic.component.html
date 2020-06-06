@@ -1,12 +1,20 @@
 <ul class="historic">
   <table>
     <tr>
+      <th>Idenficador</th>
       <th>Estado do Pedido</th>
       <th>Data do Teste</th>
       <th>Resultado</th>
     </tr>
     <li *ngFor="let h of history">
       <tr>
+        <td>
+          <a
+            routerLink="request-details/{{ h._id }} "
+            routerLinkActive="is-selected"
+            >{{ h._id }}</a
+          >
+        </td>
         <td>{{ h.estadoPedido }}</td>
         <td>{{ h.dataExame }}</td>
         <td>{{ h.resultado }}</td>

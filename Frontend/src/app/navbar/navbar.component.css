@@ -1,0 +1,13 @@
+.navbar {
+  background-color: #283593;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+}
+
+button {
+  background-color: #3f51b5;
+  margin-left: 0.5vw;
+}

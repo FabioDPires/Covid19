@@ -1,12 +1,9 @@
 <app-navbar></app-navbar>
-<div *ngIf="request">
+<div class="body" *ngIf="request">
   <h2>Informação do Paciente</h2>
   <p>
-    Cartão de Cidadão:<a
-      routerLink="/user-profile/{{ paciente._id }}"
-      routerLinkActive="is-selected"
-      >{{ paciente.cartaoCidadao }}</a
-    >
+    Cartão de Cidadão:
+    {{ paciente.cartaoCidadao }}
   </p>
   <p>Estado:{{ paciente.estado }}</p>
   <h2
@@ -17,6 +14,8 @@
   <p *ngIf="request.encaminhado">Encaminhado pela saude 24</p>
   <p *ngIf="request.pessoaRisco">Pessoa de Risco</p>
   <p *ngIf="request.trabalhoRisco">Trabalha num local de risco</p>
+  <h2>Historico do Utilizador</h2>
+  <app-user-historic [id]="paciente._id"></app-user-historic>
   <h2>Estado do pedido</h2>
   <p>{{ request.estadoPedido }}</p>
   <h2>Data do exame</h2>
@@ -28,7 +27,9 @@
       placeholder="Data do teste"
     />
     <br />
-    <button (click)="scheduleExam()">Agendar Teste</button>
+    <button mat-raised-button (click)="scheduleExam()">
+      Agendar Teste
+    </button>
   </div>
   <p>{{ request.dataExame }}</p>
 
@@ -41,7 +42,10 @@
     Positivo
 
     <br />
-    <button (click)="setResult()">Confirmar resultado</button>
+    <br />
+    <button mat-raised-button (click)="setResult()">
+      Confirmar resultado
+    </button>
   </div>
   <h2 *ngIf="request.resultado">Resultado</h2>
   <p>{{ request.resultado }}</p>

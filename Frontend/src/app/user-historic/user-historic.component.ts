@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { RestService } from '../rest.service';
 import { ActivatedRoute, Router } from '@angular/router';
 
@@ -9,6 +9,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UserHistoricComponent implements OnInit {
   history: any = [];
+  @Input() id: string;
 
   constructor(
     public rest: RestService,
@@ -17,13 +18,12 @@ export class UserHistoricComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getHistory();
+    this.getHistory(this.id);
   }
 
-  getHistory() {
-    var idTemp = this.route.snapshot.params['id'];
+  getHistory(id) {
     this.history = [];
-    this.rest.getHistory(idTemp).subscribe((data: {}) => {
+    this.rest.getHistory(id).subscribe((data: {}) => {
       console.log(data);
       this.history = data;
     });

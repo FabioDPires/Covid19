@@ -1,20 +1,27 @@
-<h2>Login</h2>
-<input
-  placeholder="cartao de cidadao"
-  [(ngModel)]="cartaoCidadao"
-  name="cartaoCidadao"
-  required
-/>
-<input
-  type="password"
-  placeholder="password"
-  [(ngModel)]="password"
-  name="password"
-  required
-/>
-<button (click)="login()">Login</button>
-<p>
-  Não tem uma conta?<a routerLink="/user-add" routerLinkActive="is-selected"
-    >Registar-se</a
-  >
-</p>
+<div class="window">
+  <div class="login">
+    <h2>Login</h2>
+    <input
+      placeholder="cartao de cidadao"
+      [(ngModel)]="cartaoCidadao"
+      name="cartaoCidadao"
+      required
+    />
+    <br />
+    <input
+      type="password"
+      placeholder="password"
+      [(ngModel)]="password"
+      name="password"
+      required
+    />
+    <br />
+    <button mat-raised-button (click)="login()">Login</button>
+    <br />
+    <p>
+      Não tem uma conta?<a routerLink="/user-add" routerLinkActive="is-selected"
+        >Registar-se</a
+      >
+    </p>
+  </div>
+</div>

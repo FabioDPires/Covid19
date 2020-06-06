@@ -10,6 +10,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AdminAddComponent implements OnInit {
   @Input() adminData: User = new User();
+  error: any;
+  success: any;
   constructor(
     public rest: RestService,
     private route: ActivatedRoute,
@@ -22,9 +24,11 @@ export class AdminAddComponent implements OnInit {
     this.rest.addAdmin(this.adminData).subscribe(
       (result: User) => {
         console.log('Admin added: ' + result);
+        this.success = 'Admin created sucessfully!';
       },
       (err) => {
         console.log(err);
+        this.error = err.error.message;
       }
     );
   }

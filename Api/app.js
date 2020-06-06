@@ -12,6 +12,8 @@ var usersRouter = require("./routes/users");
 var requestsRouter = require("./routes/requests");
 var authRouter = require("./routes/auth");
 
+var User = require("./models/user");
+
 var app = express();
 
 app.use(cors());
@@ -21,7 +23,29 @@ mongoose.Promise = global.Promise;
 
 mongoose
   .connect("mongodb://localhost:27017/Covid19")
-  .then(() => console.log("Connected to the database"))
+  .then(async () => {
+    console.log("Connected to the database");
+    const adminUser = await User.findOne({ role: "Admin" }).select("+password");
+    if (!adminUser) {
+      console.log("creating admin user");
+      var hashedPassword = bcrypt.hashSync("admin12345", 8);
+      const adminUser = await new User({
+        cartaoCidadao: 00000000,
+        password: hashedPassword,
+        role: "Admin",
+      })
+        .save()
+        .catch(console.error);
+
+      if (adminUser) {
+        console.log("Admin created");
+        console.table([adminUser.toJSON()]);
+      }
+    } else {
+      console.log("Admin:");
+      console.table([adminUser.toJSON()]);
+    }
+  })
   .catch((err) => console.log(err));
 
 // view engine setup

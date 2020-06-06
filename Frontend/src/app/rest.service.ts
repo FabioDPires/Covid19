@@ -87,6 +87,14 @@ export class RestService {
   }
 
   getHistory(id: String): Observable<Request[]> {
-    return this.http.get<Request[]>(endpoint + 'user/' + id + '/history');
+    return this.http.get<Request[]>(endpoint + 'auth/user/' + id + '/history');
+  }
+
+  changePassword(id: String, user: User): Observable<User> {
+    return this.http.put<User>(
+      endpoint + 'auth/user/' + id + '/updatePassword',
+      JSON.stringify(user),
+      httpOptions
+    );
   }
 }

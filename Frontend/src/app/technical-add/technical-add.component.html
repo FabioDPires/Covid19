@@ -2,14 +2,13 @@
 <div>
   <h2>Criar Técnico</h2>
   <div>
-    <label
-      >Cartão de Cidadão do Técnico:
-      <input [(ngModel)]="technicalData.cartaoCidadao" /> </label
-    ><br />
-    <label>
-      Password ?
-      <input [(ngModel)]="technicalData.password" /> </label
-    ><br />
+    Cartão de Cidadão do Técnico <br />
+    <input [(ngModel)]="technicalData.cartaoCidadao" /> <br />
+
+    Password <br />
+    <input [(ngModel)]="technicalData.password" />
+    <br />
+    <br />
   </div>
-  <button (click)="addTechnical()">Criar</button>
+  <button mat-raised-button (click)="addTechnical()">Criar</button>
 </div>

@@ -20,7 +20,9 @@ authController.login = function (req, res) {
       expiresIn: 86400, // expires in 24 hours
     });
     // return the information including token as JSON
-    res.status(200).send({ auth: true, token: token, role: user.role });
+    res
+      .status(200)
+      .send({ auth: true, token: token, role: user.role, id: user._id });
   });
 };
 
@@ -75,7 +77,7 @@ authController.registerAdmin = function (req, res) {
       function (err, user) {
         if (err) {
           console.log(err);
-          return res.status(500).json(err);
+          return res.status(400).json({ message: err.errmsg });
         }
         // if user is registered without errors
         // create a token
@@ -213,6 +215,57 @@ authController.verifyRoleTechnical = function (req, res, next) {
   });
 };
 
+authController.verifyRoleAdmin_Technical_Me = function (req, res, next) {
+  User.findById(req.userId, function (err, user) {
+    if (err)
+      return res.status(500).send("There was a problem finding the user.");
+    if (!user) return res.status(404).send("No user found.");
+    console.log("ID DA SESSAO:", req.userId);
+    console.log("ID DO UTILIZADOR:", req.params.userId);
+    if (
+      user.role === "Technical" ||
+      user.role === "Admin" ||
+      user._id == req.params.userId
+    ) {
+      next();
+    } else {
+      return res.status(403).send({ auth: false, message: "Not authorized!" });
+    }
+  });
+};
+
+authController.verifyRoleAdmin_Me = function (req, res, next) {
+  User.findById(req.userId, function (err, user) {
+    if (err)
+      return res.status(500).send("There was a problem finding the user.");
+    if (!user) return res.status(404).send("No user found.");
+    console.log("ID DA SESSAO:", req.userId);
+    console.log("ID DO UTILIZADOR:", req.params.userId);
+    console.log(req.userId === req.params.userId);
+    if (user.role === "Admin" || user._id == req.params.userId) {
+      next();
+    } else {
+      return res.status(403).send({ auth: false, message: "Not authorized!" });
+    }
+  });
+};
+
+authController.me = function (req, res, next) {
+  User.findById(req.userId, function (err, user) {
+    if (err)
+      return res.status(500).send("There was a problem finding the user.");
+    if (!user) return res.status(404).send("No user found.");
+    console.log("ID DA SESSAO:", req.userId);
+    console.log("ID DO UTILIZADOR:", req.params.userId);
+    console.log(req.userId === req.params.userId);
+    if (user._id == req.params.userId) {
+      next();
+    } else {
+      return res.status(403).send({ auth: false, message: "Not authorized!" });
+    }
+  });
+};
+
 authController.profile = function (req, res, next) {
   User.findById(req.userId, function (err, user) {
     if (err) {
@@ -227,10 +280,44 @@ authController.profile = function (req, res, next) {
 authController.userProfile = function (req, res) {
   User.findOne({ _id: req.params.userId }).exec(function (err, user) {
     if (err) {
-      next(err);
-    } else {
+      return res.status(500).send("There was a problem finding the user");
+    }
+    if (!user) {
+      return res.status(404).send("User not found");
+    }
+    if (user) {
       res.json(user);
     }
   });
+};
+
+authController.updatePassword = async function (req, res) {
+  if (!req.body.password || req.body.password.length < 8) {
+    res
+      .status(400)
+      .json({ message: "The password must be at least 8 characters long" });
+  }
+  var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+
+  try {
+    const oldUser = await User.findByIdAndUpdate(
+      req.params.userId,
+      {
+        password: hashedPassword,
+      },
+      {
+        runValidators: true,
+      }
+    );
+
+    const newUser = await User.findById(req.params.userId);
+    res.send({
+      old: oldUser,
+      new: newUser,
+    });
+  } catch (err) {
+    console.log("Error: ", err);
+    res.status(500).send("Something went wrong");
+  }
 };
 module.exports = authController;

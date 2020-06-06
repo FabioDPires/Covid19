@@ -3,6 +3,6 @@
   <h2>Perfil do utilizador</h2>
   <p>Cartão de Cidadão{{ user.cartaoCidadao }}</p>
   <p>Role:{{ user.role }}</p>
-  <h3>Histórico do utilizador</h3>
-  <app-user-historic></app-user-historic>
+  <h3>Os Meus Testes</h3>
+  <app-user-historic [id]="user._id"></app-user-historic>
 </div>

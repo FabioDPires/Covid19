@@ -1,44 +1,70 @@
-<header class="header">
-  <div class="aside">
-    <div *ngIf="role == 'Admin'">
+<mat-toolbar class="navbar">
+  <span>
+    <button mat-raised-button>
       <a
         routerLink="/"
         routerLinkActive="is-selected"
         [routerLinkActiveOptions]="{ exact: true }"
         >Página Inicial</a
       >
+    </button></span
+  >
+  <span *ngIf="role == 'Admin'"
+    ><button mat-raised-button>
       <a routerLink="/admin-add" routerLinkActive="is-selected">Criar admin</a>
+    </button></span
+  >
+  <span *ngIf="role == 'Admin'"
+    ><button mat-raised-button>
       <a routerLink="/technical-add" routerLinkActive="is-selected"
-        >Criar técnico</a
+        >Criar Técnico</a
       >
-      <a routerLink="/users" routerLinkActive="is-selected">
-        Todos os Utilizadores</a
+    </button></span
+  >
+  <span *ngIf="role == 'Admin'"
+    ><button mat-raised-button>
+      <a routerLink="/users" routerLinkActive="is-selected"
+        >Todos os utilizadores</a
       >
-    </div>
-    <div *ngIf="role == 'Technical'">
-      <a
-        routerLink="/"
-        routerLinkActive="is-selected"
-        [routerLinkActiveOptions]="{ exact: true }"
-        >Página Inicial</a
-      >
+    </button></span
+  >
+  <span *ngIf="role == 'Admin'"
+    ><button mat-raised-button>
+      <a routerLink="/users" routerLinkActive="is-selected">Estatísticas</a>
+    </button></span
+  >
+  <span *ngIf="role == 'Technical'">
+    <button mat-raised-button>
       <a routerLink="/requests" routerLinkActive="is-selected"
         >Pedidos de Teste</a
       >
-    </div>
-    <div *ngIf="role == 'User'">
-      <a
-        routerLink="/"
-        routerLinkActive="is-selected"
-        [routerLinkActiveOptions]="{ exact: true }"
-        >Página Inicial</a
-      >
+    </button>
+  </span>
+  <span *ngIf="role == 'User'">
+    <button mat-raised-button>
       <a routerLink="/request-add" routerLinkActive="is-selected"
         >Fazer Pedido de Teste</a
       >
-    </div>
-  </div>
-  <div>
-    <button (click)="logout()">Logout</button>
-  </div>
-</header>
+    </button>
+  </span>
+  <span>
+    <button mat-raised-button>
+      <a routerLink="/user-profile/{{ id }}" routerLinkActive="is-selected">
+        O meu perfil</a
+      >
+    </button>
+  </span>
+  <span>
+    <button mat-raised-button>
+      <a routerLink="/user-password/{{ id }}" routerLinkActive="is-selected">
+        Alterar Password</a
+      >
+    </button>
+  </span>
+
+  <span>
+    <button mat-raised-button (click)="logout()" id="logout">
+      Logout
+    </button></span
+  >
+</mat-toolbar>

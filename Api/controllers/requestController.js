@@ -5,6 +5,7 @@ var User = require("../models/user");
 var requestController = {};
 
 //Creates an request
+/*
 requestController.createRequest = function (req, res, next) {
   Request.countDocuments(
     {
@@ -52,14 +53,21 @@ requestController.createRequest = function (req, res, next) {
     }
   );
 };
+*/
 //Sets the date for an exam and changes the request state to scheduled
+//used in auth
 requestController.scheduleExam = async (req, res) => {
   if (new Date(req.body.dataExame) <= new Date()) {
     res.status(400).send("dataExame must be greather than today´s date");
   } else {
     const checkScheduled = await Request.findById(req.params.requestId);
-    if (checkScheduled.estadoPedido === "Concluído") {
-      res.status(400).send("You can´t schedule an already finished exame");
+    if (
+      checkScheduled.estadoPedido === "Concluído" ||
+      checkScheduled.estadoPedido === "Agendado"
+    ) {
+      res
+        .status(400)
+        .send("You can´t schedule an already finished or scheduled exam");
     } else {
       try {
         const oldRequest = await Request.findByIdAndUpdate(
@@ -84,6 +92,8 @@ requestController.scheduleExam = async (req, res) => {
   }
 };
 //Sets the result of the Covid exam and changes the state to finished
+
+//used in auth
 requestController.setExameResult = async (req, res) => {
   const checkScheduled = await Request.findById(req.params.requestId);
   if (checkScheduled.dataExame === undefined) {
@@ -175,7 +185,11 @@ requestController.setExameResult = async (req, res) => {
 };
 
 requestController.getRequestById = function (req, res, next, id) {
-  Request.findOne({ _id: id }).exec(function (err, request) {
+  const filter = {};
+  if (req.role === "User") {
+    filter.paciente = req.userId;
+  }
+  Request.findOne({ ...filter, _id: id }).exec(function (err, request) {
     if (err) {
       next(err);
     } else {
@@ -185,6 +199,7 @@ requestController.getRequestById = function (req, res, next, id) {
   });
 };
 
+//used in auth
 requestController.getAllRequests = function (req, res, next) {
   Request.find()
     .sort({ prioridade: -1 })
@@ -198,6 +213,7 @@ requestController.getAllRequests = function (req, res, next) {
     });
 };
 
+//used in auth
 requestController.getOneRequest = function (req, res) {
   Request.findOne({ _id: req.params.requestId })
     .populate("paciente", "cartaoCidadao estado")
@@ -210,6 +226,7 @@ requestController.getOneRequest = function (req, res) {
     });
 };
 
+//used in auth
 requestController.getUserRequests = function (req, res) {
   Request.find({ paciente: req.params.userId }).exec(function (err, requests) {
     if (err) {
@@ -233,6 +250,7 @@ requestController.getNumberOfUserTests = function (req, res) {
   });
 };
 
+//used in auth
 requestController.getAverageRequestsPerUser = function (req, res, next) {
   Request.countDocuments(function (err, countRequests) {
     if (err) {
@@ -250,8 +268,7 @@ requestController.getAverageRequestsPerUser = function (req, res, next) {
   });
 };
 
-
-
+//used in auth
 requestController.totalTests = function (req, res) {
   Request.countDocuments({ estadoPedido: "Concluído" }, function (err, count) {
     if (err) {

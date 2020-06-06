@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var User = require("../models/user");
 var userController = {};
 //Creates an administrator
-userController.createAdmin = function (req, res, next) {
+/*userController.createAdmin = function (req, res, next) {
   var user = new User({
     cartaoCidadao: req.body.cartaoCidadao,
     password: req.body.password,
@@ -48,8 +48,10 @@ userController.createUser = function (req, res, next) {
       res.json(user);
     }
   });
-};
+};*/
+
 //Lists all users(admins and technicals included)
+//used in auth
 userController.getAllUsers = function (req, res, next) {
   User.find(function (err, users) {
     if (err) {
@@ -59,6 +61,8 @@ userController.getAllUsers = function (req, res, next) {
     }
   });
 };
+
+//used in auth
 userController.getUserById = function (req, res, next, id) {
   User.findOne({ _id: id }, function (err, user) {
     if (err) {
@@ -70,13 +74,14 @@ userController.getUserById = function (req, res, next, id) {
   });
 };
 
+/*
 userController.getOneUser = function (req, res) {
   res.json({
     cartaoCidadao: req.user.cartaoCidadao,
     historico: req.user.historico,
     estado: req.user.estado,
   });
-};
+};*/
 
 // so admin e proprio user
 userController.deleteUser = function (req, res, next) {
@@ -89,7 +94,7 @@ userController.deleteUser = function (req, res, next) {
   });
 };
 
-userController.updateUserPassword = async (req, res) => {
+/*userController.updateUserPassword = async (req, res) => {
   try {
     const oldUser = await User.findByIdAndUpdate(
       req.params.userId,
@@ -110,8 +115,9 @@ userController.updateUserPassword = async (req, res) => {
     console.log("Error: ", err);
     res.status(500).send("Something went wrong");
   }
-};
+};*/
 
+//used in auth
 userController.infected = function (req, res, next) {
   User.countDocuments({ estado: "Infetado" }, function (err, count) {
     if (err) {

@@ -17,6 +17,11 @@ import { AdminAddComponent } from './admin-add/admin-add.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UserHistoricComponent } from './user-historic/user-historic.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MatButtonModule } from '@angular/material/button';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ChangePasswordComponent } from './change-password/change-password.component';
 
 @NgModule({
   declarations: [
@@ -32,8 +37,18 @@ import { UserProfileComponent } from './user-profile/user-profile.component';
     NavbarComponent,
     UserHistoricComponent,
     UserProfileComponent,
+    ChangePasswordComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, HttpClientModule, FormsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FormsModule,
+    BrowserAnimationsModule,
+    MatButtonModule,
+    MatToolbarModule,
+    MatDatepickerModule,
+  ],
   providers: [
     {
       provide: HTTP_INTERCEPTORS,
