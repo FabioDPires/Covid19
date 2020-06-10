@@ -23,8 +23,8 @@ export class RequestComponent implements OnInit {
   getRequests() {
     this.requests = [];
     this.rest.getRequests().subscribe((data: {}) => {
-      console.log(data);
       this.requests = data;
+      console.log('PEDIDOS:', this.requests);
     });
   }
 }

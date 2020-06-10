@@ -1,8 +1,11 @@
 <app-navbar></app-navbar>
 <div *ngIf="user">
-  <h2>Perfil do utilizador</h2>
-  <p>Cartão de Cidadão{{ user.cartaoCidadao }}</p>
-  <p>Role:{{ user.role }}</p>
-  <h3>Os Meus Testes</h3>
+  <h1>Perfil</h1>
+  <h2>Informações Gerais</h2>
+  <p>Cartão de Cidadão: {{ user.cartaoCidadao }}</p>
+  <p>Estado de Saúde: {{ user.estado }}</p>
+  <p>Pedidos Realizados:{{ requests }}</p>
+  <h2>Pedidos de Teste</h2>
   <app-user-historic [id]="user._id"></app-user-historic>
+  <button mat-raised-button (click)="delete()">Apagar Conta</button>
 </div>

@@ -34,13 +34,26 @@ authController.registerUser = function (req, res) {
   if (!req.body.password || req.body.password.length < 8) {
     res
       .status(400)
-      .json({ message: "The password must be at least 8 characters long" });
+      .json({ message: "A password deve conter no mínimo 8 caracteres" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    let ageRange;
+    if (req.body.idade <= 12) {
+      ageRange = "Criança";
+    } else if (ageRange <= 18) {
+      ageRange = "Adoslescente";
+    } else if (ageRange <= 64) {
+      ageRange = "Adulto";
+    } else {
+      ageRange = "Idoso";
+    }
     User.create(
       {
         cartaoCidadao: req.body.cartaoCidadao,
         password: hashedPassword,
+        sexo: req.body.sexo,
+        idade: req.body.idade,
+        faixaEtaria: ageRange,
         estado: "Suspeito",
         role: "User",
       },
@@ -64,13 +77,30 @@ authController.registerAdmin = function (req, res) {
   if (!req.body.password || req.body.password.length < 8) {
     res
       .status(400)
-      .json({ message: "The password must be at least 8 characters long" });
+      .json({ message: "A password deve conter no mínimo 8 caracteres" });
+  } else if (!req.body.cartaoCidadao) {
+    res
+      .status(400)
+      .json({ message: "É obrigatório indicar o seu cartão de cidadão" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    let ageRange;
+    if (req.body.idade <= 12) {
+      ageRange = "Criança";
+    } else if (ageRange <= 18) {
+      ageRange = "Adoslescente";
+    } else if (ageRange <= 64) {
+      ageRange = "Adulto";
+    } else {
+      ageRange = "Idoso";
+    }
     User.create(
       {
         cartaoCidadao: req.body.cartaoCidadao,
         password: hashedPassword,
+        sexo: req.body.sexo,
+        idade: req.body.idade,
+        faixaEtaria: ageRange,
         estado: "Suspeito",
         role: "Admin",
       },
@@ -94,13 +124,32 @@ authController.registerTechnical = function (req, res) {
   if (!req.body.password || req.body.password.length < 8) {
     res
       .status(400)
-      .json({ message: "The password must be at least 8 characters long" });
+      .json({ message: "A password deve conter no mínimo 8 caracteres" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
+    let ageRange;
+    if (req.body.idade <= 12) {
+      ageRange = "Criança";
+    }
+    if (req.body.idade > 12 && req.body.idade <= 18) {
+      console.log("É menor que 18");
+      ageRange = "Adolescente";
+    }
+    if (req.body.idade > 18 && req.body.idade <= 64) {
+      console.log("E menor que 64");
+      ageRange = "Adulto";
+    }
+    if (req.body.idade > 64) {
+      console.log("E maior que 64");
+      ageRange = "Idoso";
+    }
     User.create(
       {
         cartaoCidadao: req.body.cartaoCidadao,
         password: hashedPassword,
+        sexo: req.body.sexo,
+        idade: req.body.idade,
+        faixaEtaria: ageRange,
         estado: "Suspeito",
         role: "Technical",
       },
@@ -130,7 +179,7 @@ authController.createRequest = function (req, res) {
         next(err);
       } else {
         if (count > 0) {
-          res.status(400).send("This user still has unfinished requests");
+          res.status(400).send("Ainda tem pedidos por concluir");
         } else {
           const userId = req.userId;
           const user = await User.findById({ _id: userId });
@@ -295,7 +344,7 @@ authController.updatePassword = async function (req, res) {
   if (!req.body.password || req.body.password.length < 8) {
     res
       .status(400)
-      .json({ message: "The password must be at least 8 characters long" });
+      .json({ message: "A password deve ter no mínimo 8 caracteres" });
   }
   var hashedPassword = bcrypt.hashSync(req.body.password, 8);
 

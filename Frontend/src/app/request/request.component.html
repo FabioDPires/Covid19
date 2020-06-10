@@ -1,14 +1,22 @@
 <app-navbar></app-navbar>
-<h2>Lista de pedidos</h2>
-<ul class="requests">
-  <li *ngFor="let r of requests; let i = index">
-    <p>CC do Paciente:{{ r.paciente.cartaoCidadao }}</p>
-    <p>Situação de Saúde do Paciente:{{ r.paciente.estado }}</p>
-    <p>Estado do Pedido:{{ r.estadoPedido }}</p>
-    <p>Data do teste:{{ r.dataExame }}</p>
-    <p>Resultado:{{ r.resultado }}</p>
-    <a routerLink="/request-details/{{ r._id }}" routerLinkActive="is-selected">
-      Ver mais</a
+<div class="content">
+  <h2>Lista de Pedidos</h2>
+  <mat-list *ngFor="let r of requests">
+    <mat-list-item class="item">ID: {{ r._id }}</mat-list-item>
+    <mat-list-item class="item">
+      Estado do Pedido: {{ r.estadoPedido }}</mat-list-item
     >
-  </li>
-</ul>
+    <mat-list-item class="item" *ngIf="r.dataExame">
+      Data do Exame: {{ r.dataExame }}</mat-list-item
+    >
+    <mat-list-item class="item" *ngIf="r.resultado">
+      Resultado: {{ r.resultado }}</mat-list-item
+    >
+    <mat-list-item>
+      <button mat-raised-button>
+        <a routerLink="/request-details/{{ r._id }}">Ver Pedido</a>
+      </button></mat-list-item
+    >
+    <mat-divider class="separator"></mat-divider>
+  </mat-list>
+</div>

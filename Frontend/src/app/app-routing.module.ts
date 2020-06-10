@@ -13,6 +13,9 @@ import { AdminAddComponent } from './admin-add/admin-add.component';
 import { UserHistoricComponent } from './user-historic/user-historic.component';
 import { UserProfileComponent } from './user-profile/user-profile.component';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { StatsCardComponent } from './stats-card/stats-card.component';
+import { StatsComponent } from './stats/stats.component';
+import { HomepageComponent } from './homepage/homepage.component';
 
 const routes: Routes = [
   {
@@ -65,6 +68,16 @@ const routes: Routes = [
   {
     path: 'user-password/:id',
     component: ChangePasswordComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'stats',
+    component: StatsComponent,
+    canActivate: [AuthGuardService],
+  },
+  {
+    path: 'homepage',
+    component: HomepageComponent,
     canActivate: [AuthGuardService],
   },
 ];

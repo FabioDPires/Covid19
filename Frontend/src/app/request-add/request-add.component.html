@@ -1,6 +1,7 @@
 <app-navbar></app-navbar>
 <div class="content">
   <h2>Pedido de Teste</h2>
+
   <div>
     <label>
       Foi encaminhado pelo saude 24?
@@ -18,5 +19,6 @@
   <button mat-raised-button (click)="addRequest()">
     Enviar Pedido
   </button>
-  <p *ngIf="error">Ainda tem pedidos por concluír</p>
+  <p *ngIf="error">{{ error }}</p>
+  <p *ngIf="success">{{ success }}</p>
 </div>

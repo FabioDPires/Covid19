@@ -23,8 +23,8 @@ export class UserComponent implements OnInit {
   getUsers() {
     this.users = [];
     this.rest.getUsers().subscribe((data: {}) => {
-      console.log(data);
       this.users = data;
+      console.log('USERS:', this.users);
     });
   }
 }

@@ -24,7 +24,7 @@ export class AdminAddComponent implements OnInit {
     this.rest.addAdmin(this.adminData).subscribe(
       (result: User) => {
         console.log('Admin added: ' + result);
-        this.success = 'Admin created sucessfully!';
+        this.success = 'Administrador criado com sucesso';
       },
       (err) => {
         console.log(err);

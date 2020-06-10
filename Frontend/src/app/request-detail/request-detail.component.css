@@ -1,3 +1,14 @@
 button {
   background-color: #283593;
+  margin-top: 3vh;
+  margin-bottom: 3vh;
+}
+
+.content,
+.deleted {
+  margin-left: 3vw;
+}
+
+h2 {
+  margin-top: 6vh;
 }

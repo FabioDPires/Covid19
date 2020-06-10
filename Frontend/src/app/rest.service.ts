@@ -97,4 +97,26 @@ export class RestService {
       httpOptions
     );
   }
+
+  getInfectedNumber(): Observable<number> {
+    return this.http.get<number>(endpoint + 'auth/stats/infectedUsers');
+  }
+
+  getAverageTests(): Observable<any> {
+    return this.http.get<any>(endpoint + 'auth/stats/averageTestsPerUser');
+  }
+
+  getfinishedTests(): Observable<number> {
+    return this.http.get<number>(endpoint + 'auth/stats/finishedTests');
+  }
+
+  getNumberUserTests(id: String): Observable<number> {
+    return this.http.get<number>(
+      endpoint + 'auth/user/' + id + '/numberOfTests'
+    );
+  }
+
+  deleteUser(id: string): Observable<User> {
+    return this.http.delete<User>(endpoint + 'auth/user/' + id, httpOptions);
+  }
 }

@@ -22,6 +22,13 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { ChangePasswordComponent } from './change-password/change-password.component';
+import { StatsComponent } from './stats/stats.component';
+import { StatsCardComponent } from './stats-card/stats-card.component';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { HomepageComponent } from './homepage/homepage.component';
+import { MatListModule } from '@angular/material/list';
+import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -38,6 +45,9 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     UserHistoricComponent,
     UserProfileComponent,
     ChangePasswordComponent,
+    StatsComponent,
+    StatsCardComponent,
+    HomepageComponent,
   ],
   imports: [
     BrowserModule,
@@ -48,6 +58,10 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
     MatButtonModule,
     MatToolbarModule,
     MatDatepickerModule,
+    MatCardModule,
+    MatTableModule,
+    MatListModule,
+    MatDividerModule,
   ],
   providers: [
     {

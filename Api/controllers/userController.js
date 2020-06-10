@@ -53,13 +53,15 @@ userController.createUser = function (req, res, next) {
 //Lists all users(admins and technicals included)
 //used in auth
 userController.getAllUsers = function (req, res, next) {
-  User.find(function (err, users) {
-    if (err) {
-      next(err);
-    } else {
-      res.json(users);
-    }
-  });
+  User.find()
+    .sort({ role: 1 })
+    .exec(function (err, users) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(users);
+      }
+    });
 };
 
 //used in auth
@@ -89,6 +91,7 @@ userController.deleteUser = function (req, res, next) {
     if (err) {
       next(err);
     } else {
+      // Request.find({_paciente:user._id,estadoPedido})
       res.json(req.user);
     }
   });

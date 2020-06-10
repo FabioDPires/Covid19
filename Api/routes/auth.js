@@ -81,10 +81,10 @@ router.get(
 );
 
 router.get(
-  "/stats/totalTests",
+  "/stats/finishedTests",
   authController.verifyToken,
   authController.verifyRoleAdmin,
-  requestController.totalTests
+  requestController.finishedTests
 );
 
 router.post(

@@ -232,6 +232,7 @@ requestController.getUserRequests = function (req, res) {
     if (err) {
       next(err);
     } else {
+      requests.reverse();
       res.json(requests);
     }
   });
@@ -261,7 +262,11 @@ requestController.getAverageRequestsPerUser = function (req, res, next) {
           next(err);
         } else {
           const average = countRequests / countUsers;
-          res.json(average);
+          res.json({
+            users: countUsers,
+            requests: countRequests,
+            average: average,
+          });
         }
       });
     }
@@ -269,7 +274,7 @@ requestController.getAverageRequestsPerUser = function (req, res, next) {
 };
 
 //used in auth
-requestController.totalTests = function (req, res) {
+requestController.finishedTests = function (req, res) {
   Request.countDocuments({ estadoPedido: "Concluído" }, function (err, count) {
     if (err) {
       next(err);

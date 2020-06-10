@@ -1,8 +1,17 @@
 <app-navbar></app-navbar>
-<h2>Lista de utilizadores</h2>
-<ul class="users">
-  <li *ngFor="let u of users; let i = index">
-    <p>{{ u.cartaoCidadao }}</p>
-    <p>{{ u.role }}</p>
-  </li>
-</ul>
+<div class="content">
+  <h2>Lista de utilizadores</h2>
+  <mat-list *ngFor="let u of users">
+    <mat-list-item class="item"
+      >Cartão de Cidadão: {{ u.cartaoCidadao }}</mat-list-item
+    >
+    <mat-list-item class="item">Estado de Saúde: {{ u.estado }}</mat-list-item>
+    <mat-list-item class="item"> Role: {{ u.role }}</mat-list-item>
+    <mat-list-item>
+      <button mat-raised-button>
+        <a routerLink="/user-profile/{{ u._id }}">Ver perfil</a>
+      </button></mat-list-item
+    >
+    <mat-divider class="separator"></mat-divider>
+  </mat-list>
+</div>

@@ -10,6 +10,9 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class TechnicalAddComponent implements OnInit {
   @Input() technicalData: User = new User();
+  error: any;
+  success: any;
+
   constructor(
     public rest: RestService,
     private route: ActivatedRoute,
@@ -22,9 +25,11 @@ export class TechnicalAddComponent implements OnInit {
     this.rest.addTechnical(this.technicalData).subscribe(
       (result: User) => {
         console.log('Technical added: ' + result);
+        this.success = 'Técnico criado com sucesso';
       },
       (err) => {
         console.log(err);
+        this.error = err.error.message;
       }
     );
   }

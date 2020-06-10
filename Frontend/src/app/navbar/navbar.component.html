@@ -2,7 +2,7 @@
   <span>
     <button mat-raised-button>
       <a
-        routerLink="/"
+        routerLink="/homepage"
         routerLinkActive="is-selected"
         [routerLinkActiveOptions]="{ exact: true }"
         >Página Inicial</a
@@ -30,7 +30,7 @@
   >
   <span *ngIf="role == 'Admin'"
     ><button mat-raised-button>
-      <a routerLink="/users" routerLinkActive="is-selected">Estatísticas</a>
+      <a routerLink="/stats" routerLinkActive="is-selected">Estatísticas</a>
     </button></span
   >
   <span *ngIf="role == 'Technical'">

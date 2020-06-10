@@ -9,6 +9,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class UserHistoricComponent implements OnInit {
   history: any = [];
+
+  displayedColumns = ['ID do Pedido', 'Estado', 'Data do Exame', 'Resultado'];
   @Input() id: string;
 
   constructor(

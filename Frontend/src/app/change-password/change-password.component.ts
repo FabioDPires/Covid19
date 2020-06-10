@@ -22,14 +22,14 @@ export class ChangePasswordComponent implements OnInit {
   changePassword() {
     if (this.userData.password !== this.userData.repPassword) {
       console.log('Passes nao coincidem');
-      this.error = 'Passwords não coincidem';
+      this.error = 'As passwords não coincidem';
     } else {
       const id = this.route.snapshot.params['id'];
       let passwordObject: any = null;
       passwordObject = { password: this.userData.password };
       this.rest.changePassword(id, passwordObject).subscribe(
         (result) => {
-          this.success = 'Password updated with success!';
+          this.success = 'Password alterada com sucesso';
         },
         (err) => {
           console.log(err);

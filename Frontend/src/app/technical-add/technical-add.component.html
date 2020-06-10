@@ -1,14 +1,16 @@
 <app-navbar></app-navbar>
-<div>
+<div class="content">
   <h2>Criar Técnico</h2>
   <div>
     Cartão de Cidadão do Técnico <br />
     <input [(ngModel)]="technicalData.cartaoCidadao" /> <br />
 
     Password <br />
-    <input [(ngModel)]="technicalData.password" />
+    <input [(ngModel)]="technicalData.password" type="password" />
     <br />
     <br />
   </div>
   <button mat-raised-button (click)="addTechnical()">Criar</button>
+  <p *ngIf="error">{{ error }}</p>
+  <p *ngIf="success">{{ success }}</p>
 </div>

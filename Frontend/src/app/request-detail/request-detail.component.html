@@ -1,5 +1,5 @@
 <app-navbar></app-navbar>
-<div class="body" *ngIf="request">
+<div class="content" *ngIf="paciente && request">
   <h2>Informação do Paciente</h2>
   <p>
     Cartão de Cidadão:
@@ -36,6 +36,7 @@
   <div *ngIf="request.dataExame && !request.resultado">
     <h2>Resultado</h2>
     <p>Inserir Resultado</p>
+
     <input type="radio" [(ngModel)]="requestData.resultado" value="Negativo" />
     Negativo
     <input type="radio" [(ngModel)]="requestData.resultado" value="Positivo" />
@@ -43,6 +44,7 @@
 
     <br />
     <br />
+
     <button mat-raised-button (click)="setResult()">
       Confirmar resultado
     </button>
@@ -50,3 +52,7 @@
   <h2 *ngIf="request.resultado">Resultado</h2>
   <p>{{ request.resultado }}</p>
 </div>
+
+<p *ngIf="!paciente" class="deleted">
+  Este pedido pertence a um utilizador que foi apagado
+</p>

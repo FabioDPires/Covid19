@@ -1,24 +1,29 @@
 <ul class="historic">
-  <table>
-    <tr>
-      <th>Idenficador</th>
-      <th>Estado do Pedido</th>
-      <th>Data do Teste</th>
-      <th>Resultado</th>
-    </tr>
-    <li *ngFor="let h of history">
-      <tr>
-        <td>
-          <a
-            routerLink="request-details/{{ h._id }} "
-            routerLinkActive="is-selected"
-            >{{ h._id }}</a
-          >
-        </td>
-        <td>{{ h.estadoPedido }}</td>
-        <td>{{ h.dataExame }}</td>
-        <td>{{ h.resultado }}</td>
-      </tr>
-    </li>
+  <table mat-table [dataSource]="history" class="mat-elevation-z8">
+    <ng-container matColumnDef="ID do Pedido">
+      <th mat-header-cell *matHeaderCellDef>ID do Pedido</th>
+      <td mat-cell *matCellDef="let request">{{ request._id }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Estado">
+      <th mat-header-cell *matHeaderCellDef>Estado</th>
+      <td mat-cell *matCellDef="let request">{{ request.estadoPedido }}</td>
+    </ng-container>
+
+    <ng-container matColumnDef="Data do Exame">
+      <th mat-header-cell *matHeaderCellDef>Data do Exame</th>
+      <td mat-cell *matCellDef="let request">
+        {{ request.dataExame }}
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="Resultado">
+      <th mat-header-cell *matHeaderCellDef>Resultado</th>
+      <td mat-cell *matCellDef="let request">
+        {{ request.resultado }}
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
   </table>
 </ul>

@@ -6,6 +6,7 @@ var logger = require("morgan");
 var cors = require("cors");
 var swaggerUi = require("swagger-ui-express");
 var swaggerDocument = require("./swagger.json");
+var bcrypt = require("bcryptjs");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -30,8 +31,12 @@ mongoose
       console.log("creating admin user");
       var hashedPassword = bcrypt.hashSync("admin12345", 8);
       const adminUser = await new User({
-        cartaoCidadao: 00000000,
+        cartaoCidadao: "00000000",
         password: hashedPassword,
+        sexo: "Masculino",
+        idade: 21,
+        faixaEtaria: "Adolescente",
+        estado: "Suspeito",
         role: "Admin",
       })
         .save()

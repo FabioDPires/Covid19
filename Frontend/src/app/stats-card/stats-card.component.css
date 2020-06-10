@@ -1,0 +1,18 @@
+.flex-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.card-content {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  border-bottom: #3f51b5 solid;
+  margin-top: 6vh;
+}
+
+mat-card-subtitle {
+  font-size: large;
+  color: gray;
+}
