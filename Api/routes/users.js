@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 var userController = require("../controllers/userController");
 var requestController = require("../controllers/requestController");
+var authController = require("../controllers/authController");
 
 //Lists all users
 //router.get("/users", userController.getAllUsers); //->usado no auth
@@ -27,6 +28,20 @@ router.delete("/user/:userId", userController.deleteUser);
 router.get(
   "/user/:userId/numberOfTests",
   requestController.getNumberOfUserTests
+);
+
+router.get(
+  "/users",
+  authController.verifyToken,
+  authController.verifyRoleAdmin,
+  userController.getAllUsers
+);
+
+router.get(
+  "/user/:userId/history",
+  authController.verifyToken,
+  authController.verifyRoleAdmin_Technical_Me,
+  requestController.getUserRequests
 );
 
 //All the paths with the parameter userId

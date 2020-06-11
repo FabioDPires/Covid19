@@ -1,5 +1,7 @@
 var mongoose = require("mongoose");
 var User = require("../models/user");
+var Request = require("../models/request");
+const user = require("../models/user");
 var userController = {};
 //Creates an administrator
 /*userController.createAdmin = function (req, res, next) {
@@ -91,8 +93,20 @@ userController.deleteUser = function (req, res, next) {
     if (err) {
       next(err);
     } else {
-      // Request.find({_paciente:user._id,estadoPedido})
-      res.json(req.user);
+      Request.updateMany(
+        {
+          paciente: req.user._id,
+          estadoPedido: { $in: ["Pendente", "Agendado"] },
+        },
+        { $set: { estadoPedido: "Anulado", prioridade: -1 } },
+        function (err) {
+          if (err) {
+            next(err);
+          } else {
+            res.json(req.user);
+          }
+        }
+      );
     }
   });
 };
@@ -120,14 +134,55 @@ userController.deleteUser = function (req, res, next) {
   }
 };*/
 
-//used in auth
-userController.infected = function (req, res, next) {
-  User.countDocuments({ estado: "Infetado" }, function (err, count) {
+userController.infectedPerSex = function (req, res, next) {
+  User.countDocuments({ sexo: "Feminino", estado: "Infetado" }, function (
+    err,
+    infectedWomen
+  ) {
     if (err) {
       next(err);
     } else {
-      res.json(count);
+      User.countDocuments({ sexo: "Masculino", estado: "Infetado" }, function (
+        err,
+        infectedMen
+      ) {
+        if (err) {
+          next(err);
+        } else {
+          res.json({ infectedWomen: infectedWomen, infectedMen: infectedMen });
+        }
+      });
     }
   });
 };
+
+userController.infectedPerAge = function (req, res, next) {
+  User.aggregate(
+    [
+      { $match: { estado: "Infetado" } },
+      { $group: { _id: "$faixaEtaria", count: { $sum: 1 } } },
+    ],
+    function (err, count) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(count);
+      }
+    }
+  );
+};
+
+userController.percentageHealth = function (req, res, next) {
+  User.aggregate(
+    [{ $group: { _id: "$estado", count: { $sum: 1 } } }],
+    function (err, count) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(count);
+      }
+    }
+  );
+};
+
 module.exports = userController;

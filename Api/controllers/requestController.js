@@ -4,56 +4,6 @@ var User = require("../models/user");
 
 var requestController = {};
 
-//Creates an request
-/*
-requestController.createRequest = function (req, res, next) {
-  Request.countDocuments(
-    {
-      estadoPedido: { $in: ["Pendente", "Agendado"] },
-      paciente: req.body.paciente,
-    },
-    async function (err, count) {
-      if (err) {
-        next(err);
-      } else {
-        if (count > 0) {
-          res.status(400).send("This user still has unfinished requests");
-        } else {
-          const user = await User.findById({ _id: req.body.paciente });
-          var prioridade = 10;
-          if (user.estado === "Infetado") {
-            prioridade += 7;
-          }
-          if (req.body.pessoaRisco === true) {
-            prioridade += 3;
-          }
-          if (req.body.trabalhoRisco === true) {
-            prioridade += 2;
-          }
-          if (req.body.encaminhado === true) {
-            prioridade += 2;
-          }
-          var request = new Request({
-            paciente: req.body.paciente,
-            encaminhado: req.body.encaminhado,
-            pessoaRisco: req.body.pessoaRisco,
-            trabalhoRisco: req.body.trabalhoRisco,
-            estadoPedido: "Pendente",
-            prioridade: prioridade * 20,
-          });
-          request.save(function (err) {
-            if (err) {
-              next(err);
-            } else {
-              res.json(request);
-            }
-          });
-        }
-      }
-    }
-  );
-};
-*/
 //Sets the date for an exam and changes the request state to scheduled
 //used in auth
 requestController.scheduleExam = async (req, res) => {
@@ -70,12 +20,21 @@ requestController.scheduleExam = async (req, res) => {
         .send("You can´t schedule an already finished or scheduled exam");
     } else {
       try {
+        let date = new Date(req.body.dataExame);
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        let year = date.getFullYear();
+        let formatedDate = "";
+        formatedDate += day + "/" + month + "/" + year;
+        console.log("DATE:", formatedDate);
         const oldRequest = await Request.findByIdAndUpdate(
           req.params.requestId,
           {
             dataExame: req.body.dataExame,
             estadoPedido: "Agendado",
             prioridade: (checkScheduled.prioridade / 20) * 10 - 50,
+            mes: month,
+            dataFormatada: formatedDate,
           },
           { runValidators: true }
         );
@@ -273,15 +232,55 @@ requestController.getAverageRequestsPerUser = function (req, res, next) {
   });
 };
 
-//used in auth
-requestController.finishedTests = function (req, res) {
-  Request.countDocuments({ estadoPedido: "Concluído" }, function (err, count) {
-    if (err) {
-      next(err);
-    } else {
-      res.json(count);
+requestController.percentageOfResults = function (req, res, next) {
+  Request.aggregate(
+    [
+      { $match: { estadoPedido: "Concluído" } },
+      { $group: { _id: "$resultado", count: { $sum: 1 } } },
+    ],
+    function (err, count) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(count);
+      }
     }
-  });
+  );
+};
+
+requestController.percentageOfState = function (req, res, next) {
+  Request.aggregate(
+    [{ $group: { _id: "$estadoPedido", count: { $sum: 1 } } }],
+    function (err, count) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(count);
+      }
+    }
+  );
+};
+
+requestController.requestsPerMonth = function (req, res, next) {
+  Request.aggregate(
+    [
+      {
+        $match: {
+          dataExame: { $lte: new Date() },
+          estadoPedido: { $in: ["Concluído", "Agendado"] },
+        },
+      },
+      { $group: { _id: "$mes", count: { $sum: 1 } } },
+      { $sort: { _id: 1 } },
+    ],
+    function (err, count) {
+      if (err) {
+        next(err);
+      } else {
+        res.json(count);
+      }
+    }
+  );
 };
 
 module.exports = requestController;

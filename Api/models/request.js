@@ -20,11 +20,17 @@ var requestSchema = new Schema({
   }, //vem do body
   estadoPedido: {
     type: String,
-    enum: ["Pendente", "Agendado", "Concluído"],
+    enum: ["Pendente", "Agendado", "Concluído", "Anulado"],
   },
   resultado: { type: String, enum: ["Positivo", "Negativo"] },
   dataExame: {
     type: Date,
+  },
+  dataFormatada: {
+    type: String,
+  },
+  mes: {
+    type: Number,
   },
   prioridade: { type: Number },
 });

@@ -8,4 +8,6 @@ export class Request {
   dataExame: Date;
   resultado: string;
   prioridade: number;
+  dataFormatada: string;
+  mes: number;
 }

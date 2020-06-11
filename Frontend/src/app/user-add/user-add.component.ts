@@ -16,7 +16,11 @@ export class UserAddComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.router.navigate(['/homepage']);
+    }
+  }
 
   addUser() {
     this.rest.addUser(this.userData).subscribe(

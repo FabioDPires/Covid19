@@ -35,14 +35,18 @@ authController.registerUser = function (req, res) {
     res
       .status(400)
       .json({ message: "A password deve conter no mínimo 8 caracteres" });
+  } else if (!req.body.cartaoCidadao) {
+    res
+      .status(400)
+      .json({ message: "É obrigatório indicar o seu cartão de cidadão" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     let ageRange;
     if (req.body.idade <= 12) {
       ageRange = "Criança";
-    } else if (ageRange <= 18) {
-      ageRange = "Adoslescente";
-    } else if (ageRange <= 64) {
+    } else if (req.body.idade <= 18) {
+      ageRange = "Adolescente";
+    } else if (req.body.idade <= 64) {
       ageRange = "Adulto";
     } else {
       ageRange = "Idoso";
@@ -87,9 +91,9 @@ authController.registerAdmin = function (req, res) {
     let ageRange;
     if (req.body.idade <= 12) {
       ageRange = "Criança";
-    } else if (ageRange <= 18) {
-      ageRange = "Adoslescente";
-    } else if (ageRange <= 64) {
+    } else if (req.body.idade <= 18) {
+      ageRange = "Adolescente";
+    } else if (req.body.idade <= 64) {
       ageRange = "Adulto";
     } else {
       ageRange = "Idoso";
@@ -125,22 +129,20 @@ authController.registerTechnical = function (req, res) {
     res
       .status(400)
       .json({ message: "A password deve conter no mínimo 8 caracteres" });
+  } else if (!req.body.cartaoCidadao) {
+    res
+      .status(400)
+      .json({ message: "É obrigatório indicar o seu cartão de cidadão" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     let ageRange;
     if (req.body.idade <= 12) {
       ageRange = "Criança";
-    }
-    if (req.body.idade > 12 && req.body.idade <= 18) {
-      console.log("É menor que 18");
+    } else if (req.body.idade <= 18) {
       ageRange = "Adolescente";
-    }
-    if (req.body.idade > 18 && req.body.idade <= 64) {
-      console.log("E menor que 64");
+    } else if (req.body.idade <= 64) {
       ageRange = "Adulto";
-    }
-    if (req.body.idade > 64) {
-      console.log("E maior que 64");
+    } else {
       ageRange = "Idoso";
     }
     User.create(
@@ -196,6 +198,7 @@ authController.createRequest = function (req, res) {
           if (req.body.encaminhado === true) {
             prioridade += 2;
           }
+
           var request = new Request({
             paciente: userId,
             encaminhado: req.body.encaminhado,

@@ -9,7 +9,15 @@
     Password
     <br />
     <input type="password" [(ngModel)]="adminData.password" /> <br />
+    Idade
     <br />
+    <input type="number" [(ngModel)]="adminData.idade" /> <br />
+
+    Sexo
+    <input type="radio" [(ngModel)]="adminData.sexo" value="Masculino" />
+    Masculino
+    <input type="radio" [(ngModel)]="adminData.sexo" value="Feminino" />
+    Feminino
   </div>
   <button mat-raised-button (click)="addAdmin()">Criar</button>
   <p *ngIf="error">{{ error }}</p>

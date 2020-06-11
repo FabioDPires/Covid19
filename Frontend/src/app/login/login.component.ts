@@ -16,7 +16,11 @@ export class LoginComponent implements OnInit {
     private authServive: AuthenticationService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    if (localStorage.getItem('currentUser')) {
+      this.router.navigate(['/homepage']);
+    }
+  }
 
   login(): void {
     this.authServive

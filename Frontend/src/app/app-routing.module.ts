@@ -16,6 +16,7 @@ import { ChangePasswordComponent } from './change-password/change-password.compo
 import { StatsCardComponent } from './stats-card/stats-card.component';
 import { StatsComponent } from './stats/stats.component';
 import { HomepageComponent } from './homepage/homepage.component';
+import { AdminGuardService } from './admin-guard.service';
 
 const routes: Routes = [
   {
@@ -49,7 +50,7 @@ const routes: Routes = [
   {
     path: 'users',
     component: UserComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, AdminGuardService],
   },
   {
     path: 'user-add',
@@ -73,7 +74,7 @@ const routes: Routes = [
   {
     path: 'stats',
     component: StatsComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, AdminGuardService],
   },
   {
     path: 'homepage',

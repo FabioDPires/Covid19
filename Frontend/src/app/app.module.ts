@@ -29,6 +29,12 @@ import { MatTableModule } from '@angular/material/table';
 import { HomepageComponent } from './homepage/homepage.component';
 import { MatListModule } from '@angular/material/list';
 import { MatDividerModule } from '@angular/material/divider';
+import { InfectedSexComponent } from './infected-sex/infected-sex.component';
+import { InfectedAgeComponent } from './infected-age/infected-age.component';
+import { ResultsPieComponent } from './results-pie/results-pie.component';
+import { HealthPieComponent } from './health-pie/health-pie.component';
+import { RequestsPieComponent } from './requests-pie/requests-pie.component';
+import { RequestsMonthComponent } from './requests-month/requests-month.component';
 
 @NgModule({
   declarations: [
@@ -48,6 +54,12 @@ import { MatDividerModule } from '@angular/material/divider';
     StatsComponent,
     StatsCardComponent,
     HomepageComponent,
+    InfectedSexComponent,
+    InfectedAgeComponent,
+    ResultsPieComponent,
+    HealthPieComponent,
+    RequestsPieComponent,
+    RequestsMonthComponent,
   ],
   imports: [
     BrowserModule,

@@ -8,7 +8,14 @@
     Password <br />
     <input [(ngModel)]="technicalData.password" type="password" />
     <br />
+    Idade<br />
+    <input [(ngModel)]="technicalData.idade" type="number" />
     <br />
+    Sexo
+    <input type="radio" [(ngModel)]="technicalData.sexo" value="Masculino" />
+    Masculino
+    <input type="radio" [(ngModel)]="technicalData.sexo" value="Feminino" />
+    Feminino
   </div>
   <button mat-raised-button (click)="addTechnical()">Criar</button>
   <p *ngIf="error">{{ error }}</p>

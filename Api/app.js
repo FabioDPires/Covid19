@@ -12,6 +12,7 @@ var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 var requestsRouter = require("./routes/requests");
 var authRouter = require("./routes/auth");
+var statsRouter = require("./routes/stats");
 
 var User = require("./models/user");
 
@@ -74,6 +75,7 @@ app.use("/", indexRouter);
 app.use("/api/v1", usersRouter);
 app.use("/api/v1", requestsRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/stats", statsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

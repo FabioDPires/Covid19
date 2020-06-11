@@ -10,6 +10,14 @@
     <br />
     <input type="password" [(ngModel)]="userData.password" required />
     <br />
+    Idade<br />
+    <input [(ngModel)]="userData.idade" type="number" />
+    <br />
+    Sexo
+    <input type="radio" [(ngModel)]="userData.sexo" value="Masculino" />
+    Masculino
+    <input type="radio" [(ngModel)]="userData.sexo" value="Feminino" />
+    Feminino
   </div>
   <button mat-raised-button (click)="addUser()">Criar</button>
 </div>

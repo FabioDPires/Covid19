@@ -27,7 +27,7 @@ export class RestService {
   }
 
   getRequests(): Observable<Request[]> {
-    return this.http.get<Request[]>(endpoint + 'auth/allRequests');
+    return this.http.get<Request[]>(endpoint + 'requests');
   }
 
   addRequest(request: Request): Observable<Request> {
@@ -40,7 +40,7 @@ export class RestService {
 
   scheduleRequest(id: String, request: Request): Observable<Request> {
     return this.http.put<Request>(
-      endpoint + '/request/' + id + '/schedule',
+      endpoint + 'request/' + id + '/schedule',
       JSON.stringify(request),
       httpOptions
     );
@@ -48,7 +48,7 @@ export class RestService {
 
   setRequestResult(id: String, request: Request): Observable<Request> {
     return this.http.put<Request>(
-      endpoint + '/request/' + id + '/setResult',
+      endpoint + 'request/' + id + '/setResult',
       JSON.stringify(request),
       httpOptions
     );
@@ -83,11 +83,11 @@ export class RestService {
   }
 
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(endpoint + 'auth/allUsers');
+    return this.http.get<User[]>(endpoint + 'users');
   }
 
   getHistory(id: String): Observable<Request[]> {
-    return this.http.get<Request[]>(endpoint + 'auth/user/' + id + '/history');
+    return this.http.get<Request[]>(endpoint + 'user/' + id + '/history');
   }
 
   changePassword(id: String, user: User): Observable<User> {
@@ -98,16 +98,8 @@ export class RestService {
     );
   }
 
-  getInfectedNumber(): Observable<number> {
-    return this.http.get<number>(endpoint + 'auth/stats/infectedUsers');
-  }
-
   getAverageTests(): Observable<any> {
-    return this.http.get<any>(endpoint + 'auth/stats/averageTestsPerUser');
-  }
-
-  getfinishedTests(): Observable<number> {
-    return this.http.get<number>(endpoint + 'auth/stats/finishedTests');
+    return this.http.get<any>(endpoint + 'stats/averageTestsPerUser');
   }
 
   getNumberUserTests(id: String): Observable<number> {
@@ -118,5 +110,29 @@ export class RestService {
 
   deleteUser(id: string): Observable<User> {
     return this.http.delete<User>(endpoint + 'auth/user/' + id, httpOptions);
+  }
+
+  getInfectedSex(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/infectedPerSex');
+  }
+
+  getInfectedAge(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/infectedPerAge');
+  }
+
+  getUsersHealth(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/usersHealth');
+  }
+
+  getRequestsState(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/states');
+  }
+
+  getRequestResults(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/results');
+  }
+
+  getRequestsPerMonth(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/requestsPerMonth');
   }
 }

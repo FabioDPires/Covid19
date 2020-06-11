@@ -1,20 +1,34 @@
 var express = require("express");
 var router = express.Router();
 var requestController = require("../controllers/requestController");
+var authController = require("../controllers/authController");
 
-router.get("/requests", requestController.getAllRequests);
-//Creates an request
-//router.post("/requests", requestController.createRequest);
+router.get(
+  "/requests",
+  authController.verifyToken,
+  authController.verifyRoleTechnical,
+  requestController.getAllRequests
+);
 
-router.put("/request/:requestId/schedule", requestController.scheduleExam);
+router.get(
+  "/request/:requestId",
+  authController.verifyToken,
+  authController.verifyRoleTechnical,
+  requestController.getOneRequest
+);
 
-router.put("/request/:requestId/setResult", requestController.setExameResult);
+router.put(
+  "/request/:requestId/schedule",
+  authController.verifyToken,
+  authController.verifyRoleTechnical,
+  requestController.scheduleExam
+);
 
-router.get("/request/:requestId", requestController.getOneRequest);
-
-router.get("/requests/average", requestController.getAverageRequestsPerUser);
-
-//All the paths with the parameter requestId
-router.param("requestId", requestController.getRequestById);
+router.put(
+  "/request/:requestId/setResult",
+  authController.verifyToken,
+  authController.verifyRoleTechnical,
+  requestController.setExameResult
+);
 
 module.exports = router;
