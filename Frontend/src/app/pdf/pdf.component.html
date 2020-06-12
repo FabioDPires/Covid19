@@ -1,0 +1,38 @@
+<form
+  name="uploadPDF"
+  id="uploadPDF"
+  enctype="multipart/form-data"
+  (submit)="handleSubmit($event)"
+>
+  <div class="content">
+    <h2>Resultado</h2>
+    <p>Inserir Resultado</p>
+
+    <input
+      type="radio"
+      [(ngModel)]="requestData.resultado"
+      value="Negativo"
+      name="negativo"
+    />
+    Negativo
+    <input
+      type="radio"
+      [(ngModel)]="requestData.resultado"
+      value="Positivo"
+      name="positivo"
+    />
+    Positivo
+
+    <br />
+    <br />
+    <input
+      type="file"
+      name="file"
+      id="file"
+      (change)="onFileSelected($event)"
+    />
+    <br />
+    <p *ngIf="error">{{ error }}</p>
+    <button mat-raised-button type="submit">Confirmar resultado</button>
+  </div>
+</form>

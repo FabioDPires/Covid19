@@ -10,6 +10,8 @@ import { User } from '../models/user';
 })
 export class UserAddComponent implements OnInit {
   @Input() userData: User = new User();
+  error: any;
+
   constructor(
     public rest: RestService,
     private route: ActivatedRoute,
@@ -30,6 +32,7 @@ export class UserAddComponent implements OnInit {
       },
       (err) => {
         console.log(err);
+        this.error = err.error.message;
       }
     );
   }

@@ -21,12 +21,19 @@ export class UserProfileComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getUser();
-    this.getNumberOfTests();
+    var idTemp = this.route.snapshot.params['id'];
+    if (
+      JSON.parse(localStorage.getItem('currentUser')).role == 'Admin' ||
+      JSON.parse(localStorage.getItem('currentUser')).id == idTemp
+    ) {
+      this.getUser(idTemp);
+      this.getNumberOfTests(idTemp);
+    } else {
+      this.router.navigate(['/homepage']);
+    }
   }
 
-  getUser() {
-    var idTemp = this.route.snapshot.params['id'];
+  getUser(idTemp) {
     console.log(idTemp);
     this.rest.getUser(idTemp).subscribe((data: User) => {
       this.user = data;
@@ -34,8 +41,7 @@ export class UserProfileComponent implements OnInit {
     });
   }
 
-  getNumberOfTests() {
-    var idTemp = this.route.snapshot.params['id'];
+  getNumberOfTests(idTemp) {
     this.rest.getNumberUserTests(idTemp).subscribe((tests: number) => {
       this.requests = tests;
     });

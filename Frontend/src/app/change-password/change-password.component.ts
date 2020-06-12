@@ -17,7 +17,12 @@ export class ChangePasswordComponent implements OnInit {
     private router: Router
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    const id = this.route.snapshot.params['id'];
+    if (JSON.parse(localStorage.getItem('currentUser')).id !== id) {
+      this.router.navigate(['/homepage']);
+    }
+  }
 
   changePassword() {
     if (this.userData.password !== this.userData.repPassword) {

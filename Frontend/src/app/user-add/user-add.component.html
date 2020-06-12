@@ -3,21 +3,29 @@
   <div>
     Cartão de Cidadão
     <br />
-    <input [(ngModel)]="userData.cartaoCidadao" required />
+    <input [(ngModel)]="userData.cartaoCidadao" required class="margin" />
     <br />
-
     Password
     <br />
-    <input type="password" [(ngModel)]="userData.password" required />
+    <input
+      type="password"
+      [(ngModel)]="userData.password"
+      required
+      class="margin"
+    />
     <br />
+
     Idade<br />
-    <input [(ngModel)]="userData.idade" type="number" />
+    <input type="number" [(ngModel)]="userData.idade" class="margin" />
     <br />
-    Sexo
+
+    Sexo :
     <input type="radio" [(ngModel)]="userData.sexo" value="Masculino" />
     Masculino
     <input type="radio" [(ngModel)]="userData.sexo" value="Feminino" />
     Feminino
   </div>
+
   <button mat-raised-button (click)="addUser()">Criar</button>
+  <p *ngIf="error">{{ error }}</p>
 </div>

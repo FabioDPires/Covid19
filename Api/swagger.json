@@ -17,7 +17,7 @@
   "consumes": ["application/json"],
   "produces": ["application/json"],
   "paths": {
-    "/users": {
+    "auth/register": {
       "post": {
         "tags": ["Users"],
         "description": "Creates a new user in the system",
@@ -40,21 +40,9 @@
             }
           }
         }
-      },
-      "get": {
-        "tags": ["Users"],
-        "summary": "Get all users in the system",
-        "responses": {
-          "200": {
-            "description": "OK",
-            "schema": {
-              "$href": "#/definitions/Users"
-            }
-          }
-        }
       }
     },
-    "users/technical": {
+    "auth/register/technical": {
       "post": {
         "tags": ["Users"],
         "description": "Creates a new user in the system with the role technical",
@@ -79,7 +67,7 @@
         }
       }
     },
-    "users/admin": {
+    "auth/register/admin": {
       "post": {
         "tags": ["Users"],
         "description": "Creates a new user in the system with the role admin",
@@ -104,7 +92,21 @@
         }
       }
     },
-    "/user/{userId}": {
+    "users": {
+      "get": {
+        "tags": ["Users"],
+        "summary": "Get all users in the system",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "$href": "#/definitions/Users"
+            }
+          }
+        }
+      }
+    },
+    "user/{userId}": {
       "parameters": [
         {
           "name": "userId",
@@ -139,7 +141,7 @@
         }
       }
     },
-    "user/{userId}/password": {
+    "auth/user/{userId}/updatePassword": {
       "put": {
         "summary": "Updates the password of the user with the given ID",
         "tags": ["Users"],
@@ -193,16 +195,13 @@
         }
       }
     },
-    "users/infected": {
+    "stats/infectedPerSex": {
       "get": {
-        "summary": "Get the number of infected users",
+        "summary": "Get the number of infected users per sex",
         "tags": ["Stats"],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$href": "#/definitions/Count"
-            }
+            "description": "OK"
           }
         }
       }
@@ -222,10 +221,7 @@
         ],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$href": "#/definitions/Count"
-            }
+            "description": "OK"
           }
         }
       }
@@ -293,16 +289,13 @@
         }
       }
     },
-    "requests/average": {
+    "requests/averageTestsPerUser": {
       "get": {
         "summary": "Get the average of tests by user",
         "tags": ["Stats"],
         "responses": {
           "200": {
-            "description": "OK",
-            "schema": {
-              "$href": "#/definitions/Count"
-            }
+            "description": "OK"
           }
         }
       }
@@ -375,24 +368,107 @@
         }
       }
     },
-    "requests/total": {
+    "stats/infectedPerAge": {
       "get": {
-        "summary": "Get the total of tests realized",
+        "summary": "Get the number of infected users for each age range",
         "tags": ["Stats"],
         "responses": {
           "200": {
-            "description": "OK",
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "stats/results": {
+      "get": {
+        "summary": "Get the number of positive and the number of negative tests",
+        "tags": ["Stats"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "stats/states": {
+      "get": {
+        "summary": "Get the count of each request state",
+        "tags": ["Stats"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "stats/usersHealth": {
+      "get": {
+        "summary": "Get the number of infected,suspicious and non-infected users",
+        "tags": ["Stats"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "stats/requestsPerMonth": {
+      "get": {
+        "summary": "Get the number of exams already made in each month",
+        "tags": ["Stats"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "auth/logout": {
+      "get": {
+        "summary": "Ends the current session",
+        "tags": ["Authorization"],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
+    "auth/login": {
+      "post": {
+        "tags": ["Authorization"],
+        "description": "Creates a session",
+        "parameters": [
+          {
+            "name": "cartaoCidadao",
+            "in": "body",
+            "description": "identifier of the user that wants to login",
             "schema": {
-              "$href": "#/definitions/Count"
+              "$href": "#/definitions/login"
             }
+          },
+          {
+            "name": "password",
+            "in": "body",
+            "description": "password of the user that wants to login",
+            "schema": {
+              "$href": "#/definitions/login"
+            }
+          }
+        ],
+        "produces": ["application/json"],
+        "responses": {
+          "200": {
+            "description": "Logged in successfully"
           }
         }
       }
     }
   },
+
   "definitions": {
     "createUser": {
-      "required": ["_id", "cartaoCidadao", "password"],
+      "required": ["_id", "cartaoCidadao", "password", "sexo", "idade"],
       "properties": {
         "_id": {
           "type": "string",
@@ -404,6 +480,12 @@
         },
         "password": {
           "type": "string"
+        },
+        "sexo": {
+          "type": "string"
+        },
+        "idade": {
+          "type": "number"
         }
       }
     },
@@ -466,13 +548,7 @@
       }
     },
     "Request": {
-      "required": [
-        "_id",
-        "paciente",
-        "pessoaRisco",
-        "encaminhado",
-        "trabalhoRisco"
-      ],
+      "required": ["_id", "paciente"],
       "properties": {
         "_id": {
           "type": "string",
@@ -518,10 +594,15 @@
         }
       }
     },
-    "Count": {
+
+    "Login": {
+      "required": ["cartaoCidadao", "password"],
       "properties": {
-        "count": {
-          "type": "number"
+        "cartaoCidadao": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
         }
       }
     }

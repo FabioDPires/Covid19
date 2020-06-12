@@ -1,7 +1,12 @@
 button {
   background-color: #283593;
+  margin-top: 3vh;
 }
 
 .container {
   text-align: center;
+}
+
+.margin {
+  margin-bottom: 2vh;
 }

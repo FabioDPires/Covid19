@@ -27,7 +27,7 @@ export class AdminAddComponent implements OnInit {
         this.success = 'Administrador criado com sucesso';
       },
       (err) => {
-        console.log(err);
+        console.log('ERROR:', err);
         this.error = err.error.message;
       }
     );

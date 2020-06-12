@@ -12,6 +12,7 @@ export class RequestDetailComponent implements OnInit {
   @Input() requestData: any = { dataExame: '', resultado: '' };
   request: Request;
   paciente: any;
+  error: any;
 
   constructor(
     public rest: RestService,
@@ -26,6 +27,7 @@ export class RequestDetailComponent implements OnInit {
       this.request = data;
       this.paciente = data.paciente;
       console.log(data);
+      console.log('Paciente:', this.paciente);
     });
   }
 
@@ -34,12 +36,14 @@ export class RequestDetailComponent implements OnInit {
     let dataExamObject: any = null;
     dataExamObject = { dataExame: this.requestData.dataExame };
     console.log(this.requestData);
+
     this.rest.scheduleRequest(id, dataExamObject).subscribe(
       (result) => {
-        this.router.navigate(['/request-details/' + id]);
+        window.location.reload();
       },
       (err) => {
         console.log(err);
+        this.error = err.error;
       }
     );
   }
@@ -47,11 +51,13 @@ export class RequestDetailComponent implements OnInit {
   setResult() {
     const id = this.route.snapshot.params['id'];
     let dataResultObject: any = null;
-    dataResultObject = { resultado: this.requestData.resultado };
-    console.log(this.requestData);
+    dataResultObject = {
+      resultado: this.requestData.resultado,
+    };
+
     this.rest.setRequestResult(id, dataResultObject).subscribe(
       (result) => {
-        this.router.navigate(['/request-details/' + id]);
+        window.location.reload();
       },
       (err) => {
         console.log(err);

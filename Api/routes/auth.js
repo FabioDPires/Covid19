@@ -31,38 +31,11 @@ router.get(
   authController.userProfile
 );
 
-router.delete(
-  "/user/:userId",
-  authController.verifyToken,
-  authController.verifyRoleAdmin_Me,
-  userController.deleteUser
-);
-
 router.put(
   "/user/:userId/updatePassword",
   authController.verifyToken,
   authController.me,
   authController.updatePassword
-);
-
-router.get(
-  "/user/:userId/numberOfTests",
-  authController.verifyToken,
-  authController.verifyRoleAdmin_Technical_Me,
-  requestController.getNumberOfUserTests
-);
-
-router.post(
-  "/createRequest",
-  authController.verifyToken,
-  authController.createRequest
-);
-
-router.get(
-  "/request/:requestId",
-  authController.verifyToken,
-  authController.verifyRoleTechnical,
-  requestController.getOneRequest
 );
 
 router.param("userId", userController.getUserById);

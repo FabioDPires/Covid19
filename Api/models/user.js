@@ -6,7 +6,7 @@ var userSchema = new Schema({
     type: String,
     require: [true, "É obrigatório indicar o cartão de cidadão"],
     Index: true,
-    unique: true,
+    unique: [true, "O cartão de cidadão deve ser único"],
     match: /^[0-9]{8}$/,
   },
   password: {
@@ -19,11 +19,11 @@ var userSchema = new Schema({
   sexo: {
     type: String,
     enum: ["Masculino", "Feminino"],
-    require: [true, "É obrigatório indicar o sexo"],
+    required: ["É obrigatório indicar o sexo"],
   },
   idade: {
     type: Number,
-    require: [true, "É obrigatório indicar a idade"],
+    required: ["É obrigatório indicar a idade"],
   },
   faixaEtaria: {
     type: String,

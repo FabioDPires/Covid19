@@ -13,6 +13,7 @@ var usersRouter = require("./routes/users");
 var requestsRouter = require("./routes/requests");
 var authRouter = require("./routes/auth");
 var statsRouter = require("./routes/stats");
+var eventsRouter = require("./routes/events");
 
 var User = require("./models/user");
 
@@ -36,7 +37,7 @@ mongoose
         password: hashedPassword,
         sexo: "Masculino",
         idade: 21,
-        faixaEtaria: "Adolescente",
+        faixaEtaria: "Adulto",
         estado: "Suspeito",
         role: "Admin",
       })
@@ -76,6 +77,7 @@ app.use("/api/v1", usersRouter);
 app.use("/api/v1", requestsRouter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/stats", statsRouter);
+app.use("/api/v1", eventsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

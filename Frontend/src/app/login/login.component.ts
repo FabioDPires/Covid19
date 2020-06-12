@@ -10,6 +10,7 @@ import { AuthenticationService } from '../authentication.service';
 export class LoginComponent implements OnInit {
   @Input() cartaoCidadao: string;
   @Input() password: string;
+  error: any;
 
   constructor(
     private router: Router,
@@ -23,14 +24,17 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    this.authServive
-      .login(this.cartaoCidadao, this.password)
-      .subscribe((user: any) => {
+    this.authServive.login(this.cartaoCidadao, this.password).subscribe(
+      (user: any) => {
         if (user && user.token) {
           // store user details and jwt token in local storage to keep user logged in between page refreshes;
           localStorage.setItem('currentUser', JSON.stringify(user));
           this.router.navigate(['/homepage']);
         }
-      });
+      },
+      (err) => {
+        this.error = err.error.message;
+      }
+    );
   }
 }

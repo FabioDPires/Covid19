@@ -17,20 +17,20 @@ import { StatsCardComponent } from './stats-card/stats-card.component';
 import { StatsComponent } from './stats/stats.component';
 import { HomepageComponent } from './homepage/homepage.component';
 import { AdminGuardService } from './admin-guard.service';
+import { TechGuardService } from './tech-guard.service';
+
+import { PdfComponent } from './pdf/pdf.component';
 
 const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent,
   },
-  {
-    path: 'history/:id',
-    component: UserHistoricComponent,
-  },
+
   {
     path: 'request-details/:id',
     component: RequestDetailComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, TechGuardService],
   },
   {
     path: 'request-add',
@@ -40,12 +40,12 @@ const routes: Routes = [
   {
     path: 'technical-add',
     component: TechnicalAddComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, AdminGuardService],
   },
   {
     path: 'admin-add',
     component: AdminAddComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, AdminGuardService],
   },
   {
     path: 'users',
@@ -59,7 +59,7 @@ const routes: Routes = [
   {
     path: 'requests',
     component: RequestComponent,
-    canActivate: [AuthGuardService],
+    canActivate: [AuthGuardService, TechGuardService],
   },
   {
     path: 'user-profile/:id',

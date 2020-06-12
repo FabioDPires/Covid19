@@ -35,6 +35,7 @@ import { ResultsPieComponent } from './results-pie/results-pie.component';
 import { HealthPieComponent } from './health-pie/health-pie.component';
 import { RequestsPieComponent } from './requests-pie/requests-pie.component';
 import { RequestsMonthComponent } from './requests-month/requests-month.component';
+import { PdfComponent } from './pdf/pdf.component';
 
 @NgModule({
   declarations: [
@@ -60,6 +61,7 @@ import { RequestsMonthComponent } from './requests-month/requests-month.componen
     HealthPieComponent,
     RequestsPieComponent,
     RequestsMonthComponent,
+    PdfComponent,
   ],
   imports: [
     BrowserModule,

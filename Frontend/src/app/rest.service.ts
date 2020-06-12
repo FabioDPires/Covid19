@@ -22,46 +22,6 @@ export class RestService {
     return body || {};
   }
 
-  getRequest(id: String): Observable<Request> {
-    return this.http.get<Request>(endpoint + 'request/' + id, httpOptions);
-  }
-
-  getRequests(): Observable<Request[]> {
-    return this.http.get<Request[]>(endpoint + 'requests');
-  }
-
-  addRequest(request: Request): Observable<Request> {
-    return this.http.post<Request>(
-      endpoint + 'auth/createRequest',
-      JSON.stringify(request),
-      httpOptions
-    );
-  }
-
-  scheduleRequest(id: String, request: Request): Observable<Request> {
-    return this.http.put<Request>(
-      endpoint + 'request/' + id + '/schedule',
-      JSON.stringify(request),
-      httpOptions
-    );
-  }
-
-  setRequestResult(id: String, request: Request): Observable<Request> {
-    return this.http.put<Request>(
-      endpoint + 'request/' + id + '/setResult',
-      JSON.stringify(request),
-      httpOptions
-    );
-  }
-
-  addTechnical(technical: User): Observable<User> {
-    return this.http.post<User>(
-      endpoint + 'auth/register/technical',
-      JSON.stringify(technical),
-      httpOptions
-    );
-  }
-
   addUser(user: User): Observable<User> {
     return this.http.post<User>(
       endpoint + 'auth/register',
@@ -78,16 +38,32 @@ export class RestService {
     );
   }
 
-  getUser(id: String): Observable<User> {
-    return this.http.get<User>(endpoint + 'auth/userProfile/' + id);
+  addTechnical(technical: User): Observable<User> {
+    return this.http.post<User>(
+      endpoint + 'auth/register/technical',
+      JSON.stringify(technical),
+      httpOptions
+    );
   }
 
   getUsers(): Observable<User[]> {
     return this.http.get<User[]>(endpoint + 'users');
   }
 
+  getUser(id: String): Observable<User> {
+    return this.http.get<User>(endpoint + 'auth/userProfile/' + id);
+  }
+
+  deleteUser(id: string): Observable<User> {
+    return this.http.delete<User>(endpoint + 'user/' + id, httpOptions);
+  }
+
   getHistory(id: String): Observable<Request[]> {
     return this.http.get<Request[]>(endpoint + 'user/' + id + '/history');
+  }
+
+  getNumberUserTests(id: String): Observable<number> {
+    return this.http.get<number>(endpoint + 'user/' + id + '/numberOfTests');
   }
 
   changePassword(id: String, user: User): Observable<User> {
@@ -98,18 +74,41 @@ export class RestService {
     );
   }
 
-  getAverageTests(): Observable<any> {
-    return this.http.get<any>(endpoint + 'stats/averageTestsPerUser');
-  }
-
-  getNumberUserTests(id: String): Observable<number> {
-    return this.http.get<number>(
-      endpoint + 'auth/user/' + id + '/numberOfTests'
+  addRequest(request: Request): Observable<Request> {
+    return this.http.post<Request>(
+      endpoint + 'requests',
+      JSON.stringify(request),
+      httpOptions
     );
   }
 
-  deleteUser(id: string): Observable<User> {
-    return this.http.delete<User>(endpoint + 'auth/user/' + id, httpOptions);
+  getRequests(): Observable<Request[]> {
+    return this.http.get<Request[]>(endpoint + 'requests');
+  }
+
+  getRequest(id: String): Observable<Request> {
+    return this.http.get<Request>(endpoint + 'request/' + id, httpOptions);
+  }
+
+  scheduleRequest(id: String, request: Request): Observable<Request> {
+    return this.http.put<Request>(
+      endpoint + 'request/' + id + '/schedule',
+      JSON.stringify(request),
+      httpOptions
+    );
+  }
+
+  setRequestResult(id: String, request: Request): Observable<Request> {
+    console.log('Aqui está o conteudo:', request);
+    return this.http.put<Request>(
+      endpoint + 'request/' + id + '/setResult',
+      JSON.stringify(request),
+      httpOptions
+    );
+  }
+
+  getAverageTests(): Observable<any> {
+    return this.http.get<any>(endpoint + 'stats/averageTestsPerUser');
   }
 
   getInfectedSex(): Observable<any> {

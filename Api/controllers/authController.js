@@ -8,12 +8,15 @@ var authController = {};
 
 authController.login = function (req, res) {
   User.findOne({ cartaoCidadao: req.body.cartaoCidadao }, function (err, user) {
-    if (err) return res.status(500).send("Error on the server.");
-    if (!user) return res.status(404).send("No user found.");
+    if (err) return res.status(500).send("Erro no servidor.");
+    if (!user)
+      return res.status(404).send({ message: "Utilizador não encontrado" });
     // check if the password is valid
     var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
     if (!passwordIsValid)
-      return res.status(401).send({ auth: false, token: null });
+      return res
+        .status(401)
+        .send({ auth: false, token: null, message: "Dados incorretos" });
     // if user is found and password is valid
     // create a token
     var token = jwt.sign({ id: user._id, role: user.role }, config.secret, {
@@ -39,6 +42,10 @@ authController.registerUser = function (req, res) {
     res
       .status(400)
       .json({ message: "É obrigatório indicar o seu cartão de cidadão" });
+  } else if (!req.body.idade) {
+    res.status(400).json({ message: "É obrigatório indicar a sua idade" });
+  } else if (!req.body.sexo) {
+    res.status(400).json({ message: "É obrigatório indicar o seu sexo" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     let ageRange;
@@ -62,10 +69,7 @@ authController.registerUser = function (req, res) {
         role: "User",
       },
       function (err, user) {
-        if (err)
-          return res
-            .status(500)
-            .send("There was a problem registering the user`.");
+        if (err) return res.status(500).send(err);
         // if user is registered without errors
         // create a token
         var token = jwt.sign({ id: user._id, role: user.role }, config.secret, {
@@ -86,6 +90,10 @@ authController.registerAdmin = function (req, res) {
     res
       .status(400)
       .json({ message: "É obrigatório indicar o seu cartão de cidadão" });
+  } else if (!req.body.idade) {
+    res.status(400).json({ message: "É obrigatório indicar a sua idade" });
+  } else if (!req.body.sexo) {
+    res.status(400).json({ message: "É obrigatório indicar o seu sexo" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     let ageRange;
@@ -133,6 +141,10 @@ authController.registerTechnical = function (req, res) {
     res
       .status(400)
       .json({ message: "É obrigatório indicar o seu cartão de cidadão" });
+  } else if (!req.body.idade) {
+    res.status(400).json({ message: "É obrigatório indicar a sua idade" });
+  } else if (!req.body.sexo) {
+    res.status(400).json({ message: "É obrigatório indicar o seu sexo" });
   } else {
     var hashedPassword = bcrypt.hashSync(req.body.password, 8);
     let ageRange;
@@ -226,14 +238,16 @@ authController.verifyToken = function (req, res, next) {
   var token = req.headers["x-access-token"];
   console.log(token);
   if (!token)
-    return res.status(403).send({ auth: false, message: "No token provided." });
+    return res
+      .status(403)
+      .send({ auth: false, message: "Nenhum token fornecido" });
 
   // verifies secret and checks exp
   jwt.verify(token, config.secret, function (err, decoded) {
     if (err)
       return res
         .status(500)
-        .send({ auth: false, message: "Failed to authenticate token." });
+        .send({ auth: false, message: "Não foi possível autenticar o token." });
     // if everything is good, save to request for use in other routes
     req.userId = decoded.id;
     req.role = decoded.role;
@@ -244,12 +258,14 @@ authController.verifyToken = function (req, res, next) {
 authController.verifyRoleAdmin = function (req, res, next) {
   User.findById(req.userId, function (err, user) {
     if (err)
-      return res.status(500).send("There was a problem finding the user.");
-    if (!user) return res.status(404).send("No user found.");
+      return res
+        .status(500)
+        .send("Ocorreu um erro ao tentar encontrar o utilizador");
+    if (!user) return res.status(404).send("Utilizador não encontrado");
     if (user.role === "Admin") {
       next();
     } else {
-      return res.status(403).send({ auth: false, message: "Not authorized!" });
+      return res.status(403).send({ auth: false, message: "Não autorizado!" });
     }
   });
 };
@@ -257,12 +273,14 @@ authController.verifyRoleAdmin = function (req, res, next) {
 authController.verifyRoleTechnical = function (req, res, next) {
   User.findById(req.userId, function (err, user) {
     if (err)
-      return res.status(500).send("There was a problem finding the user.");
-    if (!user) return res.status(404).send("No user found.");
+      return res
+        .status(500)
+        .send("Ocorrreu um erro a tentar encontrar o utilizador");
+    if (!user) return res.status(404).send("Utilizador não encontrado");
     if (user.role === "Technical") {
       next();
     } else {
-      return res.status(403).send({ auth: false, message: "Not authorized!" });
+      return res.status(403).send({ auth: false, message: "Não autorizado!" });
     }
   });
 };
@@ -270,8 +288,10 @@ authController.verifyRoleTechnical = function (req, res, next) {
 authController.verifyRoleAdmin_Technical_Me = function (req, res, next) {
   User.findById(req.userId, function (err, user) {
     if (err)
-      return res.status(500).send("There was a problem finding the user.");
-    if (!user) return res.status(404).send("No user found.");
+      return res
+        .status(500)
+        .send("Ocorreu um erro ao tentar encontrar o utilizador");
+    if (!user) return res.status(404).send("Utilizador não encontrado");
     console.log("ID DA SESSAO:", req.userId);
     console.log("ID DO UTILIZADOR:", req.params.userId);
     if (
@@ -281,7 +301,7 @@ authController.verifyRoleAdmin_Technical_Me = function (req, res, next) {
     ) {
       next();
     } else {
-      return res.status(403).send({ auth: false, message: "Not authorized!" });
+      return res.status(403).send({ auth: false, message: "Não autorizado!" });
     }
   });
 };
@@ -289,15 +309,17 @@ authController.verifyRoleAdmin_Technical_Me = function (req, res, next) {
 authController.verifyRoleAdmin_Me = function (req, res, next) {
   User.findById(req.userId, function (err, user) {
     if (err)
-      return res.status(500).send("There was a problem finding the user.");
-    if (!user) return res.status(404).send("No user found.");
+      return res
+        .status(500)
+        .send("Ocorreu um erro ao tentar encontrar o utilizador");
+    if (!user) return res.status(404).send("Utilizador não encontrado");
     console.log("ID DA SESSAO:", req.userId);
     console.log("ID DO UTILIZADOR:", req.params.userId);
     console.log(req.userId === req.params.userId);
     if (user.role === "Admin" || user._id == req.params.userId) {
       next();
     } else {
-      return res.status(403).send({ auth: false, message: "Not authorized!" });
+      return res.status(403).send({ auth: false, message: "Não autorizado" });
     }
   });
 };
@@ -305,15 +327,17 @@ authController.verifyRoleAdmin_Me = function (req, res, next) {
 authController.me = function (req, res, next) {
   User.findById(req.userId, function (err, user) {
     if (err)
-      return res.status(500).send("There was a problem finding the user.");
-    if (!user) return res.status(404).send("No user found.");
+      return res
+        .status(500)
+        .send("Ocorreu um erro ao tentar encontrar o utilizador");
+    if (!user) return res.status(404).send("Utilizador não encontrado");
     console.log("ID DA SESSAO:", req.userId);
     console.log("ID DO UTILIZADOR:", req.params.userId);
     console.log(req.userId === req.params.userId);
     if (user._id == req.params.userId) {
       next();
     } else {
-      return res.status(403).send({ auth: false, message: "Not authorized!" });
+      return res.status(403).send({ auth: false, message: "Não autorizado!" });
     }
   });
 };
@@ -332,10 +356,12 @@ authController.profile = function (req, res, next) {
 authController.userProfile = function (req, res) {
   User.findOne({ _id: req.params.userId }).exec(function (err, user) {
     if (err) {
-      return res.status(500).send("There was a problem finding the user");
+      return res
+        .status(500)
+        .send("Ocorreu um problema ao tentar encontrar o utilizador");
     }
     if (!user) {
-      return res.status(404).send("User not found");
+      return res.status(404).send("Utilizador não encontrado");
     }
     if (user) {
       res.json(user);
@@ -368,8 +394,8 @@ authController.updatePassword = async function (req, res) {
       new: newUser,
     });
   } catch (err) {
-    console.log("Error: ", err);
-    res.status(500).send("Something went wrong");
+    console.log("Erro: ", err);
+    res.status(500).send("Algo correu mal");
   }
 };
 module.exports = authController;

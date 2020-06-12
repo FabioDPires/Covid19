@@ -7,8 +7,8 @@ var requestController = {};
 //Sets the date for an exam and changes the request state to scheduled
 //used in auth
 requestController.scheduleExam = async (req, res) => {
-  if (new Date(req.body.dataExame) <= new Date()) {
-    res.status(400).send("dataExame must be greather than today´s date");
+  if (new Date(req.body.dataExame) <= new Date() || !req.body.dataExame) {
+    res.status(400).send("A data do exame tem de ser superior à data de hoje");
   } else {
     const checkScheduled = await Request.findById(req.params.requestId);
     if (
@@ -17,7 +17,7 @@ requestController.scheduleExam = async (req, res) => {
     ) {
       res
         .status(400)
-        .send("You can´t schedule an already finished or scheduled exam");
+        .send("Não pode agendar um teste já agendado ou concluído");
     } else {
       try {
         let date = new Date(req.body.dataExame);
@@ -44,8 +44,8 @@ requestController.scheduleExam = async (req, res) => {
           new: newRequest,
         });
       } catch (err) {
-        console.log("Error: ", err);
-        res.status(500).send("Something went wrong");
+        console.log("Erro: ", err);
+        res.status(500).send("Algo correu mal");
       }
     }
   }
@@ -56,9 +56,21 @@ requestController.scheduleExam = async (req, res) => {
 requestController.setExameResult = async (req, res) => {
   const checkScheduled = await Request.findById(req.params.requestId);
   if (checkScheduled.dataExame === undefined) {
-    res.status(400).send("You can´t set the result for an unscheduled exame");
+    res
+      .status(400)
+      .send("Não pode inserir o resultado de um exame por agendar");
   } else if (checkScheduled.estadoPedido === "Concluído") {
-    res.status(400).send("You can´t change the result of a finished exame");
+    res
+      .status(400)
+      .send("Não pode alterar o resultado de um exame já concluído");
+  } else if (new Date(Date.now()) < checkScheduled.dataExame) {
+    res
+      .status(400)
+      .send(
+        "Não pode inserir o resultado de um exame que ainda não se realizou"
+      );
+  } else if (!req.body.resultado) {
+    res.status(400).send("Indique o resultado");
   } else {
     try {
       const oldRequest = await Request.findByIdAndUpdate(
@@ -75,7 +87,6 @@ requestController.setExameResult = async (req, res) => {
 
       const newRequest = await Request.findById(req.params.requestId);
       res.send({
-        old: oldRequest,
         new: newRequest,
       });
 
@@ -90,6 +101,7 @@ requestController.setExameResult = async (req, res) => {
           }
         );
       } else {
+        console.log("Resultado Negativo");
         Request.find({ paciente: newRequest.paciente })
           .limit(2)
           .sort({ dataExame: -1 })
@@ -113,16 +125,23 @@ requestController.setExameResult = async (req, res) => {
                 );
               }
               if (requests.length < 2 || requests[1].resultado === "Positivo") {
-                var newData = new Date();
+                var newDate = new Date(Date.now() + 172800000);
+
+                let month = newDate.getMonth() + 1;
+                let day = newDate.getDate();
+                let year = newDate.getFullYear();
+                let formatedDate = "";
+                formatedDate += day + "/" + month + "/" + year;
+
                 var request = new Request({
                   paciente: newRequest.paciente,
                   encaminhado: newRequest.encaminhado,
                   pessoaRisco: newRequest.pessoaRisco,
                   trabalhoRisco: newRequest.trabalhoRisco,
                   estadoPedido: "Agendado",
-                  dataExame: newData.setDate(
-                    newRequest.dataExame.getDate() + 2
-                  ),
+                  dataExame: newDate,
+                  mes: month,
+                  dataFormatada: formatedDate,
                   prioridade: oldRequest.prioridade,
                 });
                 request.save(function (err) {
@@ -137,8 +156,8 @@ requestController.setExameResult = async (req, res) => {
           });
       }
     } catch (err) {
-      console.log("Error: ", err);
-      res.status(500).send("Something went wrong");
+      console.log("Erro: ", err);
+      res.status(500).send(err);
     }
   }
 };
@@ -175,7 +194,7 @@ requestController.getAllRequests = function (req, res, next) {
 //used in auth
 requestController.getOneRequest = function (req, res) {
   Request.findOne({ _id: req.params.requestId })
-    .populate("paciente", "cartaoCidadao estado")
+    .populate("paciente", "cartaoCidadao estado sexo idade")
     .exec(function (err, request) {
       if (err) {
         next(err);
