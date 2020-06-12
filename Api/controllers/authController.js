@@ -69,7 +69,7 @@ authController.registerUser = function (req, res) {
         role: "User",
       },
       function (err, user) {
-        if (err) return res.status(500).send(err);
+        if (err) return res.status(400).json({ message: err.errmsg });
         // if user is registered without errors
         // create a token
         var token = jwt.sign({ id: user._id, role: user.role }, config.secret, {
